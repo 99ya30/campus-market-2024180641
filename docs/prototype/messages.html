@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消息列表 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .msg-layout { display: grid; grid-template-columns: 360px 1fr; gap: 0; background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); min-height: 600px; }
+    .msg-sidebar { border-right: 1px solid var(--border-lighter); }
+    .msg-sidebar .ms-header { padding: 20px; border-bottom: 1px solid var(--border-lighter); }
+    .msg-sidebar .ms-header h3 { font-size: 16px; font-weight: 600; }
+    .msg-sidebar .ms-search { padding: 12px 16px; }
+    .conversation-list { overflow-y: auto; max-height: 540px; }
+    .conv-item { display: flex; gap: 12px; padding: 14px 16px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid #f5f7fa; }
+    .conv-item:hover { background: #f5f7fa; }
+    .conv-item.active { background: #ecf5ff; }
+    .conv-item .avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .conv-item .conv-body { flex: 1; min-width: 0; }
+    .conv-item .conv-body .top { display: flex; justify-content: space-between; align-items: center; }
+    .conv-item .conv-body .top .name { font-size: 14px; font-weight: 500; }
+    .conv-item .conv-body .top .time { font-size: 12px; color: var(--text-secondary); }
+    .conv-item .conv-body .preview { font-size: 13px; color: var(--text-secondary); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .conv-item .conv-body .badge { display: inline-block; background: #f56c6c; color: #fff; font-size: 11px; padding: 0 6px; border-radius: 10px; line-height: 18px; margin-top: 4px; }
+    .msg-main { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; color: var(--text-secondary); }
+    .msg-main .el-icon { font-size: 48px; color: var(--text-placeholder); margin-bottom: 12px; }
+    .msg-main p { font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-primary"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><span>消息中心</span></div>
+        <h2 class="page-title">消息中心</h2>
+        <div class="msg-layout">
+          <div class="msg-sidebar">
+            <div class="ms-header"><h3>会话列表</h3></div>
+            <div class="ms-search"><el-input placeholder="搜索联系人..." v-model="contactSearch" size="small" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+            <div class="conversation-list">
+              <a href="chat.html" class="conv-item" style="text-decoration:none;color:inherit;">
+                <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=80&h=80&fit=crop&crop=face" alt="" class="avatar">
+                <div class="conv-body">
+                  <div class="top"><span class="name">张同学</span><span class="time">10:32</span></div>
+                  <div class="preview">好的，今晚 7 点 3 号楼下见</div>
+                  <span class="badge">2</span>
+                </div>
+              </a>
+              <a href="chat.html" class="conv-item" style="text-decoration:none;color:inherit;">
+                <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=80&h=80&fit=crop&crop=face" alt="" class="avatar">
+                <div class="conv-body">
+                  <div class="top"><span class="name">李同学</span><span class="time">昨天</span></div>
+                  <div class="preview">键盘还在吗？我想看看实物</div>
+                </div>
+              </a>
+              <a href="chat.html" class="conv-item" style="text-decoration:none;color:inherit;">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="" class="avatar">
+                <div class="conv-body">
+                  <div class="top"><span class="name">王同学</span><span class="time">昨天</span></div>
+                  <div class="preview">已收到，谢谢！</div>
+                </div>
+              </a>
+              <a href="chat.html" class="conv-item" style="text-decoration:none;color:inherit;">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="" class="avatar">
+                <div class="conv-body">
+                  <div class="top"><span class="name">赵同学</span><span class="time">昨天</span></div>
+                  <div class="preview">快递已放到 6 栋 302 门口了</div>
+                </div>
+              </a>
+              <a href="chat.html" class="conv-item" style="text-decoration:none;color:inherit;">
+                <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=80&h=80&fit=crop&crop=face" alt="" class="avatar">
+                <div class="conv-body">
+                  <div class="top"><span class="name">刘同学</span><span class="time">周三</span></div>
+                  <div class="preview">奶茶到了，来三楼取吧~</div>
+                  <span class="badge">1</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="msg-main">
+            <span class="el-icon"><el-icon><ChatDotRound /></el-icon></span>
+            <p>选择一个会话开始聊天</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); const contactSearch = ref(''); return { search, contactSearch } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

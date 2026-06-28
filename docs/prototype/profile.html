@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人中心 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .profile-header { display: flex; gap: 32px; align-items: center; background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); padding: 32px; margin-bottom: 24px; }
+    .profile-header .avatar-lg { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; }
+    .profile-header .ph-info { flex: 1; }
+    .profile-header .ph-info h2 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+    .profile-header .ph-info .meta { font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; }
+    .profile-header .ph-info .tags { display: flex; gap: 8px; }
+    .profile-stats { display: flex; gap: 32px; }
+    .profile-stats .ps-item { text-align: center; }
+    .profile-stats .ps-item .num { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+    .profile-stats .ps-item .label { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+    .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .profile-card { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); }
+    .profile-card .card-body { padding: 24px; }
+    .profile-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-lighter); display: flex; align-items: center; justify-content: space-between; }
+    .profile-card h3 .more { font-size: 13px; font-weight: 400; color: var(--text-secondary); }
+    .menu-list { display: flex; flex-direction: column; }
+    .menu-item { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #f5f7fa; text-decoration: none; color: var(--text-primary); transition: all 0.15s; }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item:hover { color: var(--primary); }
+    .menu-item .mi-icon { font-size: 20px; width: 28px; text-align: center; }
+    .menu-item .mi-label { flex: 1; font-size: 14px; }
+    .menu-item .mi-arrow { color: var(--text-placeholder); font-size: 14px; }
+    .recent-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f5f7fa; }
+    .recent-item:last-child { border-bottom: none; }
+    .recent-item img { width: 56px; height: 56px; object-fit: cover; border-radius: 4px; }
+    .recent-item .ri-body h4 { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+    .recent-item .ri-body .price { font-size: 14px; }
+    .recent-item .ri-body .time { font-size: 12px; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><span>个人中心</span></div>
+        <div class="profile-header">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=160&h=160&fit=crop&crop=face" alt="" class="avatar-lg">
+          <div class="ph-info">
+            <h2>陈小星</h2>
+            <div class="meta">计算机科学与技术学院 · 大三 · 来自东校区</div>
+            <div class="tags">
+              <span class="tag tag-success">已实名认证</span>
+              <span class="tag tag-primary">校园认证</span>
+              <span class="tag tag-info">信用优秀</span>
+            </div>
+          </div>
+          <div class="profile-stats">
+            <div class="ps-item"><div class="num">12</div><div class="label">发布</div></div>
+            <div class="ps-item"><div class="num">8</div><div class="label">成交</div></div>
+            <div class="ps-item"><div class="num">23</div><div class="label">收藏</div></div>
+          </div>
+        </div>
+        <div class="profile-grid">
+          <div class="profile-card">
+            <div class="card-body">
+              <h3>📋 我的服务 <a href="my-posts.html" class="more">查看全部 →</a></h3>
+              <div class="menu-list">
+                <a href="my-posts.html" class="menu-item"><span class="mi-icon">📦</span><span class="mi-label">我的发布</span><span class="mi-arrow">›</span></a>
+                <a href="favorites.html" class="menu-item"><span class="mi-icon">❤️</span><span class="mi-label">我的收藏</span><span class="mi-arrow">›</span></a>
+                <a href="messages.html" class="menu-item"><span class="mi-icon">💬</span><span class="mi-label">我的消息</span><span class="mi-arrow">›</span></a>
+                <a href="settings.html" class="menu-item"><span class="mi-icon">⚙️</span><span class="mi-label">账号设置</span><span class="mi-arrow">›</span></a>
+              </div>
+            </div>
+          </div>
+          <div class="profile-card">
+            <div class="card-body">
+              <h3>🕐 最近动态</h3>
+              <div class="recent-item">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200&h=150&fit=crop" alt="">
+                <div class="ri-body"><h4>出闲置教材《软件工程导论》</h4><div class="price">¥25.00</div><div class="time">2 天前发布 · 1 人咨询</div></div>
+              </div>
+              <div class="recent-item">
+                <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=200&h=150&fit=crop" alt="">
+                <div class="ri-body"><h4>IKBC 机械键盘</h4><div class="price">¥120.00</div><div class="time">1 周前发布 · 已售出</div></div>
+              </div>
+              <div class="recent-item">
+                <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=200&h=150&fit=crop" alt="">
+                <div class="ri-body"><h4>尤尼克斯羽毛球拍</h4><div class="price">¥80.00</div><div class="time">2 周前发布 · 已完成</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); return { search } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>拼单搭子详情 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .group-hero { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); border-radius: var(--radius-lg); padding: 36px 40px; color: #fff; margin-bottom: 24px; }
+    .group-hero h1 { font-size: 24px; margin-bottom: 8px; }
+    .group-hero .gh-meta { display: flex; gap: 24px; margin-top: 16px; font-size: 14px; opacity: 0.9; }
+    .group-hero .gh-meta span { display: flex; align-items: center; gap: 6px; }
+    .group-progress { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); }
+    .group-progress .card-body { padding: 28px; }
+    .group-progress .gp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .group-progress .gp-header .count { font-size: 16px; }
+    .group-progress .gp-header .count strong { color: var(--primary); font-size: 20px; }
+    .member-list { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; }
+    .member-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #f5f7fa; border-radius: 6px; }
+    .member-item .avatar-sm { width: 28px; height: 28px; }
+    .member-item .name { font-size: 13px; }
+    .desc-section { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); margin-top: 20px; }
+    .desc-section .card-body { padding: 28px; }
+    .desc-section h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+    .desc-section p { font-size: 14px; line-height: 1.8; color: var(--text-regular); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><a href="category.html?type=group">拼单搭子</a><span class="sep">/</span><span>东区食堂三楼拼奶茶</span></div>
+
+        <div class="group-hero">
+          <h1>🧋 东区食堂三楼拼奶茶，还差 2 人</h1>
+          <p>一点点奶茶买三送一活动，一起拼单省运费～</p>
+          <div class="gh-meta">
+            <span>📍 东区食堂三楼</span>
+            <span>⏰ 截止时间：今日 18:00</span>
+            <span>👤 发起人：刘同学</span>
+          </div>
+        </div>
+
+        <div class="detail-layout">
+          <div>
+            <div class="group-progress">
+              <div class="card-body">
+                <div class="gp-header">
+                  <div class="count">已有 <strong>3</strong> / 5 人参与</div>
+                  <span class="tag tag-success">进行中</span>
+                </div>
+                <el-progress :percentage="60" :stroke-width="10" striped striped-flow></el-progress>
+                <div class="member-list">
+                  <div class="member-item"><img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=60&h=60&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">刘同学（发起人）</span></div>
+                  <div class="member-item"><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=60&h=60&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">陈同学</span></div>
+                  <div class="member-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">周同学</span></div>
+                  <div class="member-item" style="background:transparent;border:2px dashed #dcdfe6;color:#909399;"><span>空位等你加入</span></div>
+                  <div class="member-item" style="background:transparent;border:2px dashed #dcdfe6;color:#909399;"><span>空位等你加入</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="desc-section">
+              <div class="card-body">
+                <h3>拼单详情</h3>
+                <p>一点点奶茶买三送一活动，我们打算拼 5 杯（凑两单买三送一），每人一杯。<br>
+                目前已有：四季春茶、波霸奶茶、抹茶拿铁。<br>
+                还差 2 位小伙伴，口味任选，单价约 12 元/人。<br>
+                下午 5 点统一下单，送到东区食堂三楼，大家各自来取～</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card sidebar-card">
+              <div class="card-body">
+                <div class="seller-info">
+                  <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=120&h=120&fit=crop&crop=face" alt="" class="avatar-lg">
+                  <div class="name">刘同学</div>
+                  <div class="meta">化工学院 · 大二</div>
+                </div>
+                <div class="action-buttons">
+                  <a href="chat.html" class="btn btn-primary btn-lg"><el-icon><UserAdd /></el-icon> 我要加入</a>
+                  <a href="chat.html" class="btn btn-default btn-lg"><el-icon><ChatDotRound /></el-icon> 联系发起人</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); return { search } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

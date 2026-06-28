@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发布拼单搭子 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .form-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+    .form-card { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); }
+    .form-card .card-body { padding: 28px; }
+    .form-card .card-body h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border-lighter); }
+    .form-actions { display: flex; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-lighter); }
+    .tip-card { font-size: 13px; color: var(--text-secondary); line-height: 1.8; }
+    .tip-card h4 { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+    .tip-card ul { padding-left: 16px; }
+    .tip-card ul li { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><a href="publish.html">发布</a><span class="sep">/</span><span>发布拼单搭子</span></div>
+        <h2 class="page-title">发布拼单搭子</h2>
+        <div class="form-layout">
+          <div class="form-card">
+            <div class="card-body">
+              <h3>拼单信息</h3>
+              <div class="form-group">
+                <label class="form-label">拼单主题 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="text" placeholder="例如：东区食堂三楼拼奶茶" value="东区食堂三楼拼奶茶">
+              </div>
+              <div class="form-group">
+                <label class="form-label">拼单内容</label>
+                <textarea class="form-textarea" placeholder="请描述拼单的具体内容、活动详情等" rows="3">一点点奶茶买三送一活动，每人一杯，单价约 12 元。下午 5 点统一下单。</textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">需要人数 <span style="color:#f56c6c;">*</span></label>
+                <el-input-number v-model="totalCount" :min="2" :max="20"></el-input-number>
+                <span style="font-size:13px;color:#909399;margin-left:8px;">人</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">集合/送达地点 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="text" placeholder="例如：东区食堂三楼" value="东区食堂三楼">
+              </div>
+              <div class="form-group">
+                <label class="form-label">截止时间 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="datetime-local" value="2026-06-28T18:00">
+              </div>
+              <div class="form-group">
+                <label class="form-label">联系方式 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="text" placeholder="请输入微信 / QQ / 手机号" value="WeChat: liu2024">
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary btn-lg" style="flex:1;">提交发布</button>
+                <button class="btn btn-default btn-lg">保存草稿</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="form-card tip-card">
+              <div class="card-body">
+                <h4>📌 发布须知</h4>
+                <ul>
+                  <li>请明确标注人均费用和总人数</li>
+                  <li>合理设置截止时间，避免超时</li>
+                  <li>确认后请及时更新拼单状态</li>
+                  <li>建议选择校内安全地点集合</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); const totalCount = ref(5); return { search, totalCount } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

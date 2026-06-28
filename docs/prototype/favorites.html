@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的收藏 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .fav-tabs { display: flex; gap: 0; margin-bottom: 20px; background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); overflow: hidden; }
+    .fav-tabs .tab { flex: 1; padding: 12px 20px; text-align: center; font-size: 14px; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .fav-tabs .tab:hover { background: #ecf5ff; color: var(--primary); }
+    .fav-tabs .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .fav-card { display: flex; gap: 16px; padding: 16px; background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); margin-bottom: 12px; }
+    .fav-card img { width: 100px; height: 80px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+    .fav-card .fc-body { flex: 1; }
+    .fav-card .fc-body h4 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .fav-card .fc-body .meta { font-size: 12px; color: var(--text-secondary); }
+    .fav-card .fc-body .meta span { margin-right: 12px; }
+    .fav-card .fc-actions { display: flex; flex-direction: column; gap: 6px; justify-content: center; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><a href="profile.html">个人中心</a><span class="sep">/</span><span>我的收藏</span></div>
+        <h2 class="page-title">我的收藏</h2>
+        <div class="fav-tabs">
+          <div class="tab active">全部 (23)</div>
+          <div class="tab">二手商品 (15)</div>
+          <div class="tab">失物招领 (3)</div>
+          <div class="tab">拼单 (3)</div>
+          <div class="tab">跑腿 (2)</div>
+        </div>
+        <div class="fav-card">
+          <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=240&fit=crop" alt="">
+          <div class="fc-body">
+            <h4>出闲置教材《软件工程导论》，九成新</h4>
+            <div class="meta"><span>¥25.00</span><span>张同学 · 信息学院</span><span>📅 2026-06-26</span></div>
+          </div>
+          <div class="fc-actions">
+            <a href="item-detail.html" class="btn btn-primary btn-sm">查看详情</a>
+            <button class="btn btn-default btn-sm">取消收藏</button>
+          </div>
+        </div>
+        <div class="fav-card">
+          <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&h=240&fit=crop" alt="">
+          <div class="fc-body">
+            <h4>IKBC 机械键盘 红轴 87 键</h4>
+            <div class="meta"><span>¥120.00</span><span>李同学 · 机电学院</span><span>📅 2026-06-25</span></div>
+          </div>
+          <div class="fc-actions">
+            <a href="item-detail.html" class="btn btn-primary btn-sm">查看详情</a>
+            <button class="btn btn-default btn-sm">取消收藏</button>
+          </div>
+        </div>
+        <div class="fav-card">
+          <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=300&h=240&fit=crop" alt="">
+          <div class="fc-body">
+            <h4>尤尼克斯羽毛球拍 附球包</h4>
+            <div class="meta"><span>¥80.00</span><span>王同学 · 体育学院</span><span>📅 2026-06-20</span></div>
+          </div>
+          <div class="fc-actions">
+            <a href="item-detail.html" class="btn btn-primary btn-sm">查看详情</a>
+            <button class="btn btn-default btn-sm">取消收藏</button>
+          </div>
+        </div>
+        <div class="pagination-wrap">
+          <el-pagination background layout="prev,pager,next" :total="23" :page-size="10"></el-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); return { search } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

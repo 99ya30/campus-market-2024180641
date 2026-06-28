@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>账号设置 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .settings-layout { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; }
+    .settings-menu { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); overflow: hidden; }
+    .settings-menu .sm-item { display: block; padding: 14px 20px; font-size: 14px; color: var(--text-regular); border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none; }
+    .settings-menu .sm-item:hover { background: #ecf5ff; color: var(--primary); }
+    .settings-menu .sm-item.active { background: #ecf5ff; color: var(--primary); border-left-color: var(--primary); font-weight: 600; }
+    .settings-menu .sm-header { padding: 16px 20px; font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--border-lighter); }
+    .form-card { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); }
+    .form-card .card-body { padding: 28px; }
+    .form-card .card-body h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+    .avatar-upload { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .avatar-upload .avatar-lg { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; }
+    .avatar-upload .au-info p { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><a href="profile.html">个人中心</a><span class="sep">/</span><span>账号设置</span></div>
+        <h2 class="page-title">账号设置</h2>
+        <div class="settings-layout">
+          <div class="settings-menu">
+            <div class="sm-header">设置</div>
+            <a href="settings.html" class="sm-item active">👤 个人信息</a>
+            <a href="settings.html" class="sm-item">🔒 安全设置</a>
+            <a href="settings.html" class="sm-item">🔔 通知设置</a>
+            <a href="settings.html" class="sm-item">📱 隐私设置</a>
+          </div>
+          <div class="form-card">
+            <div class="card-body">
+              <h3>个人信息</h3>
+              <div class="avatar-upload">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=160&h=160&fit=crop&crop=face" alt="" class="avatar-lg">
+                <div class="au-info">
+                  <button class="btn btn-default btn-sm">更换头像</button>
+                  <p>支持 jpg / png，建议 200x200 以上</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">昵称</label>
+                <input class="form-input" type="text" value="陈小星" style="max-width:360px;">
+              </div>
+              <div class="form-group">
+                <label class="form-label">学院</label>
+                <el-select v-model="college" placeholder="请选择学院" style="width:360px;">
+                  <el-option label="计算机科学与技术学院" value="cs"></el-option>
+                  <el-option label="信息工程学院" value="se"></el-option>
+                  <el-option label="机电工程学院" value="me"></el-option>
+                  <el-option label="外国语学院" value="fl"></el-option>
+                  <el-option label="理学院" value="sc"></el-option>
+                </el-select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">年级</label>
+                <el-select v-model="grade" placeholder="请选择年级" style="width:360px;">
+                  <el-option label="大一" value="1"></el-option>
+                  <el-option label="大二" value="2"></el-option>
+                  <el-option label="大三" value="3"></el-option>
+                  <el-option label="大四" value="4"></el-option>
+                  <el-option label="研究生" value="g"></el-option>
+                </el-select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">校区</label>
+                <el-select v-model="campus" placeholder="请选择校区" style="width:360px;">
+                  <el-option label="东校区" value="east"></el-option>
+                  <el-option label="西校区" value="west"></el-option>
+                  <el-option label="南校区" value="south"></el-option>
+                  <el-option label="北校区" value="north"></el-option>
+                </el-select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">个人简介</label>
+                <textarea class="form-textarea" style="max-width:480px;height:80px;">计科大三学生，喜欢打羽毛球和摄影。诚信交易，非诚勿扰～</textarea>
+              </div>
+              <button class="btn btn-primary">保存修改</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); const college = ref('cs'); const grade = ref('3'); const campus = ref('east'); return { search, college, grade, campus } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

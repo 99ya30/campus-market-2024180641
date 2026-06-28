@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #409eff 0%, #337ecc 100%);
+      border-radius: var(--radius-lg); padding: 40px 48px; color: #fff;
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;
+    }
+    .hero-banner h2 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+    .hero-banner p { opacity: 0.85; font-size: 15px; margin-bottom: 20px; }
+    .hero-banner .btn { background: #fff; color: #409eff; border: none; }
+    .hero-banner .btn:hover { background: #e6f0ff; }
+    .hero-stats { display: flex; gap: 32px; }
+    .hero-stat { text-align: center; }
+    .hero-stat .num { font-size: 28px; font-weight: 700; }
+    .hero-stat .label { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+
+    /* Quick Entry */
+    .quick-entry { display: flex; gap: 16px; margin-bottom: 28px; }
+    .quick-entry a {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      padding: 20px; background: #fff; border-radius: var(--radius-base);
+      border: 1px solid var(--border-lighter); color: var(--text-primary);
+      transition: all 0.2s; text-decoration: none;
+    }
+    .quick-entry a:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .quick-entry .qe-icon { font-size: 32px; margin-bottom: 8px; }
+    .quick-entry .qe-label { font-size: 14px; font-weight: 500; }
+    .quick-entry .qe-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+    /* Section header */
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .section-header h3 { font-size: 18px; font-weight: 600; }
+    .section-header .more { font-size: 13px; color: var(--text-secondary); }
+
+    /* Tabs */
+    .category-tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .category-tabs .tab {
+      padding: 6px 16px; border-radius: 20px; font-size: 13px;
+      background: #f0f2f5; color: var(--text-regular); cursor: pointer; transition: all 0.2s;
+      border: none;
+    }
+    .category-tabs .tab:hover { background: #ecf5ff; color: var(--primary); }
+    .category-tabs .tab.active { background: var(--primary); color: #fff; }
+
+    /* Product card */
+    .product-card {
+      background: #fff; border-radius: var(--radius-base);
+      border: 1px solid var(--border-lighter); overflow: hidden;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .product-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .product-card img { width: 100%; height: 180px; object-fit: cover; }
+    .product-card .info { padding: 14px 16px; }
+    .product-card .info h4 { font-size: 14px; font-weight: 500; margin-bottom: 6px; line-height: 1.4; }
+    .product-card .info .price { font-size: 16px; }
+    .product-card .info .meta { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--text-secondary); }
+    .product-card .info .meta .user-row { gap: 6px; }
+    .product-card .info .meta .user-row .name { font-size: 12px; }
+    .tag-group { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+
+    /* Lost item card */
+    .lost-card {
+      display: flex; gap: 16px; padding: 16px; background: #fff;
+      border-radius: var(--radius-base); border: 1px solid var(--border-lighter);
+      transition: all 0.2s; cursor: pointer;
+    }
+    .lost-card:hover { box-shadow: var(--shadow-hover); }
+    .lost-card .lc-icon { font-size: 36px; flex-shrink: 0; width: 60px; height: 60px; background: #fef0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .lost-card .lc-body { flex: 1; }
+    .lost-card .lc-body h4 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .lost-card .lc-body p { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+    .lost-card .lc-body .meta { font-size: 12px; color: var(--text-secondary); display: flex; gap: 16px; }
+
+    /* Group card */
+    .group-card {
+      padding: 16px; background: #fff; border-radius: var(--radius-base);
+      border: 1px solid var(--border-lighter); transition: all 0.2s; cursor: pointer;
+    }
+    .group-card:hover { box-shadow: var(--shadow-hover); }
+    .group-card h4 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+    .group-card .progress-info { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 13px; color: var(--text-secondary); }
+    .group-card .progress-info .count { color: var(--primary); font-weight: 600; }
+    .group-card .meta { font-size: 12px; color: var(--text-secondary); display: flex; gap: 16px; }
+
+    /* Task card */
+    .task-card {
+      padding: 16px; background: #fff; border-radius: var(--radius-base);
+      border: 1px solid var(--border-lighter); transition: all 0.2s; cursor: pointer;
+    }
+    .task-card:hover { box-shadow: var(--shadow-hover); }
+    .task-card h4 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .task-card .reward { color: var(--danger); font-weight: 600; font-size: 16px; }
+    .task-card .meta { font-size: 12px; color: var(--text-secondary); margin-top: 8px; display: flex; gap: 16px; }
+
+    /* Section spacing */
+    .section-block { margin-bottom: 36px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <!-- Header -->
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search">
+            <el-input placeholder="搜索商品、失物、拼单、跑腿..." v-model="search" size="large" clearable>
+              <template #prefix><el-icon><Search /></el-icon></template>
+            </el-input>
+          </div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html">
+              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="avatar" class="avatar">
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <div class="main-content">
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+          <div>
+            <h2>欢迎回到校园轻集市 🎒</h2>
+            <p>二手交易 · 失物招领 · 拼单搭子 · 跑腿委托 — 一站式校园生活服务平台</p>
+            <a href="publish.html" class="btn btn-lg">立即发布</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat"><div class="num">1,286</div><div class="label">商品总数</div></div>
+            <div class="hero-stat"><div class="num">48</div><div class="label">今日发布</div></div>
+            <div class="hero-stat"><div class="num">326</div><div class="label">在线用户</div></div>
+          </div>
+        </div>
+
+        <!-- Quick Entry -->
+        <div class="quick-entry">
+          <a href="category.html?type=secondhand">
+            <span class="qe-icon">🛍️</span>
+            <span class="qe-label">二手交易</span>
+            <span class="qe-desc">闲置好物等你来淘</span>
+          </a>
+          <a href="category.html?type=lost">
+            <span class="qe-icon">🔍</span>
+            <span class="qe-label">失物招领</span>
+            <span class="qe-desc">找回丢失的物品</span>
+          </a>
+          <a href="category.html?type=group">
+            <span class="qe-icon">👥</span>
+            <span class="qe-label">拼单搭子</span>
+            <span class="qe-desc">一起拼更划算</span>
+          </a>
+          <a href="category.html?type=task">
+            <span class="qe-icon">🏃</span>
+            <span class="qe-label">跑腿委托</span>
+            <span class="qe-desc">有事你说话</span>
+          </a>
+        </div>
+
+        <!-- Second-hand Items -->
+        <div class="section-block">
+          <div class="section-header">
+            <h3>🔥 热门闲置</h3>
+            <a href="category.html?type=secondhand" class="more">查看更多 →</a>
+          </div>
+          <div class="grid-4">
+            <a href="item-detail.html" class="product-card" style="text-decoration:none;color:inherit">
+              <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop" alt="软件工程导论">
+              <div class="info">
+                <div class="tag-group">
+                  <span class="tag tag-primary">九成新</span>
+                  <span class="tag tag-success">可小刀</span>
+                </div>
+                <h4>出闲置教材《软件工程导论》，九成新</h4>
+                <div class="price">25.00</div>
+                <div class="meta">
+                  <div class="user-row">
+                    <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm">
+                    <span class="name">张同学</span>
+                  </div>
+                  <span>20 分钟前</span>
+                </div>
+              </div>
+            </a>
+            <a href="item-detail.html" class="product-card" style="text-decoration:none;color:inherit">
+              <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=300&fit=crop" alt="机械键盘">
+              <div class="info">
+                <div class="tag-group">
+                  <span class="tag tag-primary">九五新</span>
+                  <span class="tag tag-warning">可换物</span>
+                </div>
+                <h4>IKBC 机械键盘 红轴 87 键</h4>
+                <div class="price">120.00</div>
+                <div class="meta">
+                  <div class="user-row">
+                    <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm">
+                    <span class="name">李同学</span>
+                  </div>
+                  <span>1 小时前</span>
+                </div>
+              </div>
+            </a>
+            <a href="item-detail.html" class="product-card" style="text-decoration:none;color:inherit">
+              <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop" alt="羽毛球拍">
+              <div class="info">
+                <div class="tag-group">
+                  <span class="tag tag-primary">七成新</span>
+                </div>
+                <h4>尤尼克斯羽毛球拍 附球包</h4>
+                <div class="price">80.00</div>
+                <div class="meta">
+                  <div class="user-row">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm">
+                    <span class="name">王同学</span>
+                  </div>
+                  <span>2 小时前</span>
+                </div>
+              </div>
+            </a>
+            <a href="item-detail.html" class="product-card" style="text-decoration:none;color:inherit">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" alt="显示器">
+              <div class="info">
+                <div class="tag-group">
+                  <span class="tag tag-primary">八成新</span>
+                </div>
+                <h4>求购二手显示器，预算 300 元以内</h4>
+                <div class="price">300.00</div>
+                <div class="meta">
+                  <div class="user-row">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm">
+                    <span class="name">赵同学</span>
+                  </div>
+                  <span>3 小时前</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Lost & Found -->
+        <div class="section-block">
+          <div class="section-header">
+            <h3>🔍 失物招领</h3>
+            <a href="category.html?type=lost" class="more">查看更多 →</a>
+          </div>
+          <div class="grid-2">
+            <a href="lost-detail.html" class="lost-card" style="text-decoration:none;color:inherit">
+              <div class="lc-icon">🎒</div>
+              <div class="lc-body">
+                <h4>拾到校园卡一张，请失主联系</h4>
+                <p>在西区食堂二楼拾到校园卡一张，卡号 2024****061，请失主到 3 号楼值班室认领。</p>
+                <div class="meta">
+                  <span>📍 西区食堂</span>
+                  <span>🕐 30 分钟前</span>
+                  <span><span class="tag tag-primary">拾到</span></span>
+                </div>
+              </div>
+            </a>
+            <a href="lost-detail.html" class="lost-card" style="text-decoration:none;color:inherit">
+              <div class="lc-icon">🎧</div>
+              <div class="lc-body">
+                <h4>西门打印店附近丢失黑色耳机盒</h4>
+                <p>AirPods 黑色充电盒，内有贴纸标记，如有捡到请联系，非常感谢！</p>
+                <div class="meta">
+                  <span>📍 西门打印店</span>
+                  <span>🕐 1 小时前</span>
+                  <span><span class="tag tag-warning">丢失</span></span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Group Orders -->
+        <div class="section-block">
+          <div class="section-header">
+            <h3>👥 拼单搭子</h3>
+            <a href="category.html?type=group" class="more">查看更多 →</a>
+          </div>
+          <div class="grid-3">
+            <a href="group-detail.html" class="group-card" style="text-decoration:none;color:inherit">
+              <h4>东区食堂三楼拼奶茶，还差 2 人</h4>
+              <div class="progress-info">
+                <span>已有 <span class="count">3</span> / 5 人</span>
+                <el-progress :percentage="60" :stroke-width="6" style="flex:1"></el-progress>
+              </div>
+              <div class="meta">
+                <span>📍 东区食堂三楼</span>
+                <span>⏰ 截止 18:00</span>
+                <span>👤 发起人：刘同学</span>
+              </div>
+            </a>
+            <a href="group-detail.html" class="group-card" style="text-decoration:none;color:inherit">
+              <h4>周五下午拼车去高铁站</h4>
+              <div class="progress-info">
+                <span>已有 <span class="count">2</span> / 4 人</span>
+                <el-progress :percentage="50" :stroke-width="6" style="flex:1"></el-progress>
+              </div>
+              <div class="meta">
+                <span>📍 学校南门</span>
+                <span>⏰ 截止 周五 12:00</span>
+                <span>👤 发起人：陈同学</span>
+              </div>
+            </a>
+            <a href="group-detail.html" class="group-card" style="text-decoration:none;color:inherit">
+              <h4>图书馆拼咖啡外卖，免配送费</h4>
+              <div class="progress-info">
+                <span>已有 <span class="count">1</span> / 3 人</span>
+                <el-progress :percentage="33" :stroke-width="6" style="flex:1"></el-progress>
+              </div>
+              <div class="meta">
+                <span>📍 图书馆一楼</span>
+                <span>⏰ 截止 14:30</span>
+                <span>👤 发起人：周同学</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Tasks -->
+        <div class="section-block">
+          <div class="section-header">
+            <h3>🏃 跑腿委托</h3>
+            <a href="category.html?type=task" class="more">查看更多 →</a>
+          </div>
+          <div class="grid-3">
+            <a href="task-detail.html" class="task-card" style="text-decoration:none;color:inherit">
+              <h4>求帮取快递到 6 栋宿舍</h4>
+              <p style="font-size:13px;color:#909399;margin:6px 0;">快递站在北门，中通快递，送到 6 栋 302，谢谢！</p>
+              <div class="reward">15.00</div>
+              <div class="meta">
+                <span>📍 北门快递站 → 6 栋</span>
+                <span>⏰ 今天内</span>
+              </div>
+            </a>
+            <a href="task-detail.html" class="task-card" style="text-decoration:none;color:inherit">
+              <h4>帮忙带午饭到图书馆</h4>
+              <p style="font-size:13px;color:#909399;margin:6px 0;">东区二楼黄焖鸡米饭，送到图书馆三楼自习区，酬谢。</p>
+              <div class="reward">8.00</div>
+              <div class="meta">
+                <span>📍 东区食堂 → 图书馆</span>
+                <span>⏰ 12:00 前</span>
+              </div>
+            </a>
+            <a href="task-detail.html" class="task-card" style="text-decoration:none;color:inherit">
+              <h4>代取打印件（西门打印店）</h4>
+              <p style="font-size:13px;color:#909399;margin:6px 0;">打印店已出件，帮忙取到 2 教 401，A4 黑白，共 20 页。</p>
+              <div class="reward">5.00</div>
+              <div class="meta">
+                <span>📍 西门打印店 → 2 教</span>
+                <span>⏰ 今天 15:00 前</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({
+      setup() {
+        const search = ref('')
+        return { search }
+      }
+    })
+    app.use(ElementPlus)
+    app.mount('#app')
+  </script>
+</body>
+</html>

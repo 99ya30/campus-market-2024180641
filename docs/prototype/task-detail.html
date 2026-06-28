@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跑腿委托详情 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .task-hero { background: linear-gradient(135deg,#f093fb 0%,#f5576c 100%); border-radius: var(--radius-lg); padding: 36px 40px; color: #fff; margin-bottom: 24px; }
+    .task-hero h1 { font-size: 24px; margin-bottom: 8px; }
+    .task-hero .reward-big { font-size: 36px; font-weight: 700; margin: 12px 0; }
+    .task-hero .reward-big::before { content: '¥'; font-size: 24px; }
+    .task-hero .th-meta { display: flex; gap: 24px; font-size: 14px; opacity: 0.9; }
+    .task-hero .th-meta span { display: flex; align-items: center; gap: 6px; }
+    .desc-section { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); }
+    .desc-section .card-body { padding: 28px; }
+    .desc-section h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+    .desc-section p { font-size: 14px; line-height: 1.8; color: var(--text-regular); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><a href="category.html?type=task">跑腿委托</a><span class="sep">/</span><span>求帮取快递</span></div>
+
+        <div class="task-hero">
+          <h1>📦 求帮取快递到 6 栋宿舍</h1>
+          <p>快递站在北门，中通快递，送到 6 栋 302，谢谢！</p>
+          <div class="reward-big">15.00</div>
+          <div class="th-meta">
+            <span>📍 北门快递站 → 6 栋宿舍</span>
+            <span>⏰ 今天内完成</span>
+            <span>📦 中通快递 · 小件</span>
+          </div>
+        </div>
+
+        <div class="detail-layout">
+          <div>
+            <div class="desc-section">
+              <div class="card-body">
+                <h3>任务详情</h3>
+                <p>快递到北门快递站了，但今天下午有课走不开，求好心人帮忙取一下～<br>
+                具体信息：中通快递，取件码 6-28-3047，送到 6 栋 302 宿舍放在门口即可。<br>
+                快递不大，就是一个鞋盒大小。<br>
+                报酬 15 元，微信/支付宝都行，谢谢！</p>
+              </div>
+            </div>
+            <div class="desc-section" style="margin-top:20px;">
+              <div class="card-body">
+                <h3>任务要求</h3>
+                <p>📍 出发地：北门快递站<br>📍 送达地：6 栋宿舍 302<br>⏰ 期望完成时间：今天 20:00 前<br>📏 物品大小：小件（鞋盒大小）<br>🚶 预估耗时：15-20 分钟</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card sidebar-card">
+              <div class="card-body">
+                <div class="seller-info">
+                  <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face" alt="" class="avatar-lg">
+                  <div class="name">赵同学</div>
+                  <div class="meta">外国语学院 · 大三</div>
+                  <div style="margin-top:4px;"><span class="tag tag-success">已实名</span></div>
+                </div>
+                <div class="action-buttons">
+                  <a href="chat.html" class="btn btn-primary btn-lg"><el-icon><Check /></el-icon> 我要接单</a>
+                  <a href="chat.html" class="btn btn-default btn-lg"><el-icon><ChatDotRound /></el-icon> 联系发布者</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); return { search } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

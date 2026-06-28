@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>失物招领详情 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .lost-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; font-size: 14px; font-weight: 500; }
+    .lost-badge.found { background: #ecf5ff; color: #409eff; }
+    .lost-badge.lost { background: #fef0f0; color: #f56c6c; }
+    .gallery-single { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); overflow: hidden; }
+    .gallery-single img { width: 100%; height: 400px; object-fit: cover; }
+    .info-main { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); }
+    .info-main .card-body { padding: 28px; }
+    .info-main h1 { font-size: 22px; font-weight: 600; margin-bottom: 12px; }
+    .info-main .detail-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; background: #fafafa; border-radius: 6px; margin: 16px 0; font-size: 14px; }
+    .info-main .detail-meta .dm-item { color: var(--text-regular); }
+    .info-main .detail-meta .dm-item strong { color: var(--text-primary); font-weight: 500; }
+    .info-main .desc { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-lighter); }
+    .info-main .desc h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+    .info-main .desc p { font-size: 14px; line-height: 1.8; color: var(--text-regular); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索商品、失物、拼单、跑腿..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><a href="category.html?type=lost">失物招领</a><span class="sep">/</span><span>拾到校园卡一张</span></div>
+        <div class="detail-layout">
+          <div>
+            <div class="gallery-single">
+              <img src="https://images.unsplash.com/photo-1586282391129-76a6df230234?w=800&h=500&fit=crop" alt="">
+            </div>
+            <div class="info-main" style="margin-top:20px;">
+              <div class="card-body">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                  <span class="lost-badge found">🔍 拾到物品</span>
+                  <span class="tag tag-info">已有人联系</span>
+                </div>
+                <h1>拾到校园卡一张，请失主联系</h1>
+                <div class="detail-meta">
+                  <div class="dm-item"><strong>拾到地点：</strong>西区食堂二楼</div>
+                  <div class="dm-item"><strong>拾到时间：</strong>2026-06-28 11:00</div>
+                  <div class="dm-item"><strong>物品特征：</strong>蓝色卡套，卡号 2024****061</div>
+                  <div class="dm-item"><strong>当前保管：</strong>3 号楼值班室</div>
+                </div>
+                <div class="desc">
+                  <h3>详细描述</h3>
+                  <p>今天上午在西区食堂二楼靠窗位置拾到校园卡一张，蓝色卡套，背面写有"计科 2406"。<br>
+                  已交给 3 号楼一楼值班室，请失主携带学生证前往认领。<br>
+                  若不方便可联系我代为转交，联系方式已开放。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card sidebar-card">
+              <div class="card-body">
+                <div class="seller-info">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=face" alt="" class="avatar-lg">
+                  <div class="name">王同学</div>
+                  <div class="meta">机械学院 · 大二<br>诚信用户</div>
+                </div>
+                <div class="action-buttons">
+                  <a href="chat.html" class="btn btn-primary btn-lg"><el-icon><ChatDotRound /></el-icon> 联系发布者</a>
+                  <button class="btn btn-default btn-lg"><el-icon><Star /></el-icon> 收藏</button>
+                </div>
+                <div class="report-link"><a href="#">⚠️ 举报该信息</a></div>
+              </div>
+            </div>
+            <div class="card sidebar-card">
+              <div class="card-body">
+                <h4 style="font-size:15px;font-weight:600;margin-bottom:12px;">附近失物</h4>
+                <div class="related-list">
+                  <a href="lost-detail.html" class="related-item">
+                    <img src="https://images.unsplash.com/photo-1578319439584-104c94d73b1e?w=200&h=150&fit=crop" alt="">
+                    <div class="ri-body"><h4>西门打印店附近丢失黑色耳机盒</h4></div>
+                  </a>
+                  <a href="lost-detail.html" class="related-item">
+                    <img src="https://images.unsplash.com/photo-1594226801341-41427b4e5c22?w=200&h=150&fit=crop" alt="">
+                    <div class="ri-body"><h4>篮球场拾到黑色钱包一个</h4></div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); return { search } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

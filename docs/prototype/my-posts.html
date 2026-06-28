@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的发布 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .tabs-bar { display: flex; gap: 0; margin-bottom: 20px; background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); overflow: hidden; }
+    .tabs-bar .tab { flex: 1; padding: 12px 20px; text-align: center; font-size: 14px; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .tabs-bar .tab:hover { background: #ecf5ff; color: var(--primary); }
+    .tabs-bar .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .post-card { display: flex; gap: 16px; padding: 16px; background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); margin-bottom: 12px; }
+    .post-card img { width: 100px; height: 80px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+    .post-card .pc-body { flex: 1; }
+    .post-card .pc-body h4 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .post-card .pc-body .meta { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+    .post-card .pc-body .meta span { margin-right: 16px; }
+    .post-card .pc-actions { display: flex; gap: 8px; align-items: flex-start; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><a href="profile.html">个人中心</a><span class="sep">/</span><span>我的发布</span></div>
+        <h2 class="page-title">我的发布</h2>
+        <div class="tabs-bar">
+          <div class="tab active">全部 (12)</div>
+          <div class="tab">在售 (8)</div>
+          <div class="tab">已售出 (2)</div>
+          <div class="tab">草稿 (2)</div>
+        </div>
+        <div class="post-card">
+          <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=240&fit=crop" alt="">
+          <div class="pc-body">
+            <h4>出闲置教材《软件工程导论》，九成新</h4>
+            <div class="meta"><span>¥25.00</span><span>📅 2026-06-26</span><span>👁️ 32 次浏览</span><span>💬 3 人咨询</span></div>
+            <span class="tag tag-success">在售</span>
+          </div>
+          <div class="pc-actions">
+            <button class="btn btn-default btn-sm">编辑</button>
+            <button class="btn btn-danger btn-sm">下架</button>
+          </div>
+        </div>
+        <div class="post-card">
+          <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&h=240&fit=crop" alt="">
+          <div class="pc-body">
+            <h4>IKBC 机械键盘 红轴 87 键</h4>
+            <div class="meta"><span>¥120.00</span><span>📅 2026-06-20</span><span>👁️ 56 次浏览</span><span>💬 5 人咨询</span></div>
+            <span class="tag tag-info">已售出</span>
+          </div>
+          <div class="pc-actions">
+            <button class="btn btn-default btn-sm">查看</button>
+            <button class="btn btn-danger btn-sm">删除</button>
+          </div>
+        </div>
+        <div class="post-card">
+          <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=300&h=240&fit=crop" alt="">
+          <div class="pc-body">
+            <h4>尤尼克斯羽毛球拍 附球包</h4>
+            <div class="meta"><span>¥80.00</span><span>📅 2026-06-15</span><span>👁️ 28 次浏览</span><span>💬 2 人咨询</span></div>
+            <span class="tag tag-success">在售</span>
+          </div>
+          <div class="pc-actions">
+            <button class="btn btn-default btn-sm">编辑</button>
+            <button class="btn btn-danger btn-sm">下架</button>
+          </div>
+        </div>
+        <div class="post-card">
+          <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=300&h=240&fit=crop" alt="">
+          <div class="pc-body">
+            <h4>小米台灯二代 全新未拆封</h4>
+            <div class="meta"><span>¥35.00</span><span>📅 2026-06-10</span><span>👁️ 18 次浏览</span><span>💬 1 人咨询</span></div>
+            <span class="tag tag-warning">草稿</span>
+          </div>
+          <div class="pc-actions">
+            <button class="btn btn-primary btn-sm">继续编辑</button>
+            <button class="btn btn-danger btn-sm">删除</button>
+          </div>
+        </div>
+        <div class="pagination-wrap">
+          <el-pagination background layout="prev,pager,next" :total="12" :page-size="5"></el-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); return { search } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

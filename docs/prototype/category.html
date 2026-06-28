@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>分类浏览 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .category-tabs-bar { margin-bottom: 20px; }
+    .content-grid { display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: start; }
+    .side-menu { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); overflow: hidden; }
+    .side-menu .sm-item {
+      display: block; padding: 14px 20px; font-size: 14px; color: var(--text-regular);
+      border-left: 3px solid transparent; transition: all 0.15s; text-decoration: none;
+    }
+    .side-menu .sm-item:hover { background: #ecf5ff; color: var(--primary); }
+    .side-menu .sm-item.active { background: #ecf5ff; color: var(--primary); border-left-color: var(--primary); font-weight: 600; }
+    .side-menu .sm-header { padding: 16px 20px; font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--border-lighter); }
+    .product-list { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .product-card { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); overflow: hidden; transition: all 0.2s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+    .product-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .product-card img { width: 100%; height: 160px; object-fit: cover; }
+    .product-card .info { padding: 12px 14px; }
+    .product-card .info h4 { font-size: 14px; font-weight: 500; margin-bottom: 4px; line-height: 1.4; display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+    .product-card .info .price { font-size: 16px; }
+    .product-card .info .meta { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; font-size: 12px; color: var(--text-secondary); }
+    .product-card .info .tag-group { margin-bottom: 4px; }
+    .result-count { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+    .result-count strong { color: var(--text-primary); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <!-- Header -->
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search">
+            <el-input placeholder="搜索商品、失物、拼单、跑腿..." v-model="search" size="large" clearable>
+              <template #prefix><el-icon><Search /></el-icon></template>
+            </el-input>
+          </div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+
+      <div class="main-content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><span>二手交易</span></div>
+        <h2 class="page-title">二手交易</h2>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <span class="filter-label">分类：</span>
+          <el-select v-model="cat" placeholder="全部分类" size="small">
+            <el-option label="全部分类" value="all"></el-option>
+            <el-option label="教材书籍" value="books"></el-option>
+            <el-option label="电子数码" value="digital"></el-option>
+            <el-option label="体育用品" value="sports"></el-option>
+            <el-option label="生活日用" value="daily"></el-option>
+            <el-option label="服饰鞋包" value="clothing"></el-option>
+          </el-select>
+          <span class="filter-label">地点：</span>
+          <el-select v-model="loc" placeholder="全部地点" size="small">
+            <el-option label="全部地点" value="all"></el-option>
+            <el-option label="东校区" value="east"></el-option>
+            <el-option label="西校区" value="west"></el-option>
+            <el-option label="南校区" value="south"></el-option>
+            <el-option label="北校区" value="north"></el-option>
+          </el-select>
+          <span class="filter-label">排序：</span>
+          <el-select v-model="sort" placeholder="最新发布" size="small">
+            <el-option label="最新发布" value="newest"></el-option>
+            <el-option label="价格从低到高" value="price_asc"></el-option>
+            <el-option label="价格从高到低" value="price_desc"></el-option>
+            <el-option label="离我最近" value="distance"></el-option>
+          </el-select>
+          <div style="margin-left:auto"><el-button type="primary" size="small">筛选</el-button></div>
+        </div>
+
+        <div class="content-grid">
+          <!-- Side menu -->
+          <div class="side-menu">
+            <div class="sm-header">分类</div>
+            <a href="category.html" class="sm-item active">🎯 全部分类</a>
+            <a href="category.html?cat=books" class="sm-item">📚 教材书籍</a>
+            <a href="category.html?cat=digital" class="sm-item">💻 电子数码</a>
+            <a href="category.html?cat=sports" class="sm-item">⚽ 体育用品</a>
+            <a href="category.html?cat=daily" class="sm-item">🧴 生活日用</a>
+            <a href="category.html?cat=clothing" class="sm-item">👔 服饰鞋包</a>
+          </div>
+
+          <!-- Content -->
+          <div>
+            <div class="result-count">共 <strong>36</strong> 件商品</div>
+            <div class="product-list">
+              <a href="item-detail.html" class="product-card">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop" alt="">
+                <div class="info">
+                  <div class="tag-group"><span class="tag tag-primary">九成新</span></div>
+                  <h4>《软件工程导论》第六版 附笔记</h4>
+                  <div class="price">25.00</div>
+                  <div class="meta"><div class="user-row"><img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">张同学</span></div><span>20 分钟前</span></div>
+                </div>
+              </a>
+              <a href="item-detail.html" class="product-card">
+                <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=300&fit=crop" alt="">
+                <div class="info">
+                  <div class="tag-group"><span class="tag tag-primary">九五新</span></div>
+                  <h4>IKBC 机械键盘 红轴 87键 白色背光</h4>
+                  <div class="price">120.00</div>
+                  <div class="meta"><div class="user-row"><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">李同学</span></div><span>1 小时前</span></div>
+                </div>
+              </a>
+              <a href="item-detail.html" class="product-card">
+                <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop" alt="">
+                <div class="info">
+                  <div class="tag-group"><span class="tag tag-primary">七成新</span></div>
+                  <h4>尤尼克斯羽毛球拍 附球包3只装</h4>
+                  <div class="price">80.00</div>
+                  <div class="meta"><div class="user-row"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">王同学</span></div><span>2 小时前</span></div>
+                </div>
+              </a>
+              <a href="item-detail.html" class="product-card">
+                <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=400&h=300&fit=crop" alt="">
+                <div class="info">
+                  <div class="tag-group"><span class="tag tag-primary">全新</span></div>
+                  <h4>小米台灯二代 全新未拆封</h4>
+                  <div class="price">35.00</div>
+                  <div class="meta"><div class="user-row"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">赵同学</span></div><span>3 小时前</span></div>
+                </div>
+              </a>
+              <a href="item-detail.html" class="product-card">
+                <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=400&h=300&fit=crop" alt="">
+                <div class="info">
+                  <div class="tag-group"><span class="tag tag-primary">八成新</span></div>
+                  <h4>移动电源 20000mAh 罗马仕</h4>
+                  <div class="price">60.00</div>
+                  <div class="meta"><div class="user-row"><img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">刘同学</span></div><span>4 小时前</span></div>
+                </div>
+              </a>
+              <a href="item-detail.html" class="product-card">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop" alt="">
+                <div class="info">
+                  <div class="tag-group"><span class="tag tag-primary">九成新</span></div>
+                  <h4>CASIO 计算器 fx-991CNX</h4>
+                  <div class="price">45.00</div>
+                  <div class="meta"><div class="user-row"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">陈同学</span></div><span>5 小时前</span></div>
+                </div>
+              </a>
+              <a href="item-detail.html" class="product-card">
+                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=300&fit=crop" alt="">
+                <div class="info">
+                  <div class="tag-group"><span class="tag tag-primary">全新</span></div>
+                  <h4>全新衬衫 M码 买大了没穿过</h4>
+                  <div class="price">50.00</div>
+                  <div class="meta"><div class="user-row"><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">吴同学</span></div><span>6 小时前</span></div>
+                </div>
+              </a>
+              <a href="item-detail.html" class="product-card">
+                <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?w=400&h=300&fit=crop" alt="">
+                <div class="info">
+                  <div class="tag-group"><span class="tag tag-primary">七成新</span></div>
+                  <h4>耐克运动鞋 42码 穿着次数少</h4>
+                  <div class="price">150.00</div>
+                  <div class="meta"><div class="user-row"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">孙同学</span></div><span>7 小时前</span></div>
+                </div>
+              </a>
+              <a href="item-detail.html" class="product-card">
+                <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=300&fit=crop" alt="">
+                <div class="info">
+                  <div class="tag-group"><span class="tag tag-primary">九五新</span></div>
+                  <h4>考研英语词汇书 2025版</h4>
+                  <div class="price">20.00</div>
+                  <div class="meta"><div class="user-row"><img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=40&h=40&fit=crop&crop=face" alt="" class="avatar avatar-sm"><span class="name">黄同学</span></div><span>8 小时前</span></div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-wrap">
+              <el-pagination background layout="prev,pager,next" :total="36" :page-size="9"></el-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({
+      setup() {
+        const search = ref('')
+        const cat = ref('all')
+        const loc = ref('all')
+        const sort = ref('newest')
+        return { search, cat, loc, sort }
+      }
+    })
+    app.use(ElementPlus)
+    app.mount('#app')
+  </script>
+</body>
+</html>

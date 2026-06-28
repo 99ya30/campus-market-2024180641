@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发布选择 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .publish-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; max-width: 800px; margin: 0 auto; }
+    .publish-card {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 40px 24px; background: #fff; border-radius: 12px;
+      border: 2px solid var(--border-lighter); cursor: pointer; text-decoration: none; color: inherit;
+      transition: all 0.25s;
+    }
+    .publish-card:hover { border-color: var(--primary); box-shadow: 0 8px 24px rgba(64,158,255,0.15); transform: translateY(-4px); }
+    .publish-card .pc-icon { font-size: 48px; margin-bottom: 12px; }
+    .publish-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .publish-card p { font-size: 13px; color: var(--text-secondary); }
+    .page-subtitle { text-align: center; font-size: 15px; color: var(--text-secondary); margin-bottom: 32px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><span>发布信息</span></div>
+        <h2 class="page-title" style="text-align:center;">选择发布类型</h2>
+        <p class="page-subtitle">请选择您要发布的信息类型，我们将为您提供对应的发布表单</p>
+        <div class="publish-grid">
+          <a href="publish-item.html" class="publish-card">
+            <span class="pc-icon">🛍️</span>
+            <h3>二手商品</h3>
+            <p>出售闲置教材、数码产品、生活用品等</p>
+          </a>
+          <a href="publish-lost.html" class="publish-card">
+            <span class="pc-icon">🔍</span>
+            <h3>失物招领</h3>
+            <p>发布丢失或拾到的物品信息</p>
+          </a>
+          <a href="publish-group.html" class="publish-card">
+            <span class="pc-icon">👥</span>
+            <h3>拼单搭子</h3>
+            <p>找人一起拼单、拼车、拼外卖</p>
+          </a>
+          <a href="publish-task.html" class="publish-card">
+            <span class="pc-icon">🏃</span>
+            <h3>跑腿委托</h3>
+            <p>找人帮忙取快递、带饭、跑腿办事</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); return { search } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

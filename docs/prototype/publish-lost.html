@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发布失物招领 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .form-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+    .form-card { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); }
+    .form-card .card-body { padding: 28px; }
+    .form-card .card-body h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border-lighter); }
+    .upload-area { border: 2px dashed #dcdfe6; border-radius: 6px; padding: 32px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+    .upload-area:hover { border-color: var(--primary); }
+    .upload-area .el-icon { font-size: 36px; color: var(--text-placeholder); }
+    .upload-area p { font-size: 14px; color: var(--text-secondary); margin-top: 8px; }
+    .upload-area .hint { font-size: 12px; color: var(--text-placeholder); margin-top: 4px; }
+    .form-actions { display: flex; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-lighter); }
+    .tip-card { font-size: 13px; color: var(--text-secondary); line-height: 1.8; }
+    .tip-card h4 { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+    .tip-card ul { padding-left: 16px; }
+    .tip-card ul li { margin-bottom: 8px; }
+    .type-toggle { display: flex; gap: 0; margin-bottom: 18px; }
+    .type-toggle .tt-btn { flex:1; padding: 10px; text-align: center; border: 1px solid var(--border-light); cursor: pointer; font-size: 14px; transition: all 0.2s; }
+    .type-toggle .tt-btn:first-child { border-radius: 4px 0 0 4px; }
+    .type-toggle .tt-btn:last-child { border-radius: 0 4px 4px 0; }
+    .type-toggle .tt-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .type-toggle .tt-btn:not(.active) { background: #fff; color: var(--text-regular); }
+    .type-toggle .tt-btn:not(.active):hover { background: #ecf5ff; color: var(--primary); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><a href="publish.html">发布</a><span class="sep">/</span><span>发布失物招领</span></div>
+        <h2 class="page-title">发布失物招领</h2>
+
+        <div class="form-layout">
+          <div class="form-card">
+            <div class="card-body">
+              <h3>失物信息</h3>
+              <div class="type-toggle">
+                <div class="tt-btn active">😢 我丢东西了</div>
+                <div class="tt-btn">🔍 我捡到东西了</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">物品名称 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="text" placeholder="例如：校园卡、黑色耳机盒、钱包" value="校园卡">
+              </div>
+              <div class="form-group">
+                <label class="form-label">发生地点 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="text" placeholder="例如：西区食堂二楼" value="西区食堂二楼">
+              </div>
+              <div class="form-group">
+                <label class="form-label">发生时间 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="datetime-local" value="2026-06-28T11:00">
+              </div>
+              <div class="form-group">
+                <label class="form-label">联系方式 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="text" placeholder="请输入微信 / QQ / 手机号" value="WeChat: wang2024">
+              </div>
+              <div class="form-group">
+                <label class="form-label">上传图片（可选）</label>
+                <div class="upload-area">
+                  <span class="el-icon"><el-icon><Plus /></el-icon></span>
+                  <p>点击或拖拽上传图片</p>
+                  <p class="hint">上传物品照片有助于更快找回</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">详细描述 <span style="color:#f56c6c;">*</span></label>
+                <textarea class="form-textarea" placeholder="请详细描述物品外观、特征、品牌、颜色等关键信息">蓝色卡套，卡号 2024****061，背面写有"计科 2406"。拾到后已交给 3 号楼一楼值班室。</textarea>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary btn-lg" style="flex:1;">提交发布</button>
+                <button class="btn btn-default btn-lg">保存草稿</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="form-card tip-card">
+              <div class="card-body">
+                <h4>📌 发布须知</h4>
+                <ul>
+                  <li>失物招领信息将展示在首页失物招领板块</li>
+                  <li>请提供尽量详细的物品特征描述</li>
+                  <li>拾到物品请标注当前保管地点</li>
+                  <li>物品找到后请及时标记为"已解决"</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); return { search } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

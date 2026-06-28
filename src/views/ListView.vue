@@ -15,7 +15,7 @@ const items = [
       <div v-for="item in items" :key="item.id" class="card">
         <h3>{{ item.name }}</h3>
         <p class="price">¥{{ item.price }}</p>
-        <router-link :to="`/detail/${item.id}`" class="link">查看详情</router-link>
+        <router-link :to="`/item/${item.id}`" class="link">查看详情</router-link>
       </div>
     </div>
   </section>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #f0f2f5; padding: 24px; }
+    .auth-card { width: 420px; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 40px; }
+    .auth-card .logo { text-align: center; font-size: 24px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+    .auth-card .subtitle { text-align: center; font-size: 14px; color: var(--text-secondary); margin-bottom: 28px; }
+    .auth-card .form-group { margin-bottom: 20px; }
+    .auth-card .form-input { padding: 10px 14px; font-size: 15px; }
+    .auth-card .btn { width: 100%; padding: 12px; font-size: 15px; }
+    .auth-footer { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary); }
+    .auth-footer a { color: var(--primary); }
+    .auth-divider { display: flex; align-items: center; margin: 24px 0; color: var(--text-placeholder); font-size: 13px; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-lighter); }
+    .auth-divider span { padding: 0 16px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="auth-page">
+      <div class="auth-card">
+        <div class="logo">🏫 校园轻集市</div>
+        <div class="subtitle">登录您的账号</div>
+        <form @submit.prevent>
+          <div class="form-group">
+            <label class="form-label">学号 / 邮箱</label>
+            <input class="form-input" type="text" placeholder="请输入学号或邮箱" value="2024****061">
+          </div>
+          <div class="form-group">
+            <label class="form-label">密码</label>
+            <input class="form-input" type="password" placeholder="请输入密码" value="········">
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:20px;font-size:13px;">
+            <label><input type="checkbox" checked> 记住我</label>
+            <a href="#">忘记密码？</a>
+          </div>
+          <a href="home.html" class="btn btn-primary btn-lg" style="display:block;text-align:center;text-decoration:none;">登 录</a>
+        </form>
+        <div class="auth-divider"><span>其他方式</span></div>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-default" style="flex:1;padding:10px;">微信扫码</button>
+          <button class="btn btn-default" style="flex:1;padding:10px;">校园认证</button>
+        </div>
+        <div class="auth-footer">还没有账号？<a href="register.html">立即注册</a></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp } = Vue
+    const app = createApp({})
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

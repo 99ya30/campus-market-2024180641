@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>信息审核 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .admin-layout { display: grid; grid-template-columns: 220px 1fr; gap: 0; min-height: calc(100vh - 60px); }
+    .admin-sidebar { background: #fff; border-right: 1px solid var(--border-lighter); padding: 20px 0; }
+    .admin-sidebar .as-header { padding: 0 20px 16px; font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+    .admin-sidebar .as-item { display: flex; align-items: center; gap: 10px; padding: 12px 20px; font-size: 14px; color: var(--text-regular); text-decoration: none; transition: all 0.15s; border-left: 3px solid transparent; }
+    .admin-sidebar .as-item:hover { background: #ecf5ff; color: var(--primary); }
+    .admin-sidebar .as-item.active { background: #ecf5ff; color: var(--primary); border-left-color: var(--primary); font-weight: 600; }
+    .admin-main { padding: 28px 32px; background: #f0f2f5; }
+    .admin-main h2 { font-size: 22px; font-weight: 600; margin-bottom: 20px; }
+    .review-filters { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .review-table-wrap { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); overflow: hidden; }
+    .el-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .el-table th { background: #f5f7fa; padding: 12px 16px; text-align: left; font-weight: 500; color: var(--text-regular); border-bottom: 1px solid var(--border-lighter); }
+    .el-table td { padding: 12px 16px; border-bottom: 1px solid #f5f7fa; }
+    .el-table tr:last-child td { border-bottom: none; }
+    .el-table tr:hover td { background: #f5f7fa; }
+    .review-actions { display: flex; gap: 6px; }
+    .table-title { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--primary); font-weight: 500; }
+    .table-title:hover { color: var(--primary-light); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="admin-dashboard.html" class="logo">🏫 校园轻<span>集市</span> <span style="font-size:12px;background:#f56c6c;color:#fff;padding:2px 8px;border-radius:4px;margin-left:8px;">管理端</span></a>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:16px;">
+            <span style="font-size:14px;color:#606266;">管理员 · 王老师</span>
+            <a href="home.html" style="font-size:13px;color:#909399;">返回前台</a>
+          </div>
+        </div>
+      </header>
+      <div class="admin-layout">
+        <div class="admin-sidebar">
+          <div class="as-header">管理菜单</div>
+          <a href="admin-dashboard.html" class="as-item">📊 数据概览</a>
+          <a href="admin-review.html" class="as-item active">✅ 信息审核</a>
+          <a href="admin-review.html" class="as-item">👥 用户管理</a>
+          <a href="admin-review.html" class="as-item">🚩 举报处理</a>
+          <a href="admin-review.html" class="as-item">📋 分类管理</a>
+          <a href="admin-review.html" class="as-item">⚙️ 系统设置</a>
+        </div>
+        <div class="admin-main">
+          <h2>信息审核</h2>
+          <div class="review-filters">
+            <el-select v-model="type" placeholder="全部分类" size="small" style="width:130px;">
+              <el-option label="全部分类" value="all"></el-option>
+              <el-option label="二手商品" value="item"></el-option>
+              <el-option label="失物招领" value="lost"></el-option>
+              <el-option label="拼单搭子" value="group"></el-option>
+              <el-option label="跑腿委托" value="task"></el-option>
+            </el-select>
+            <el-select v-model="status" placeholder="全部状态" size="small" style="width:130px;">
+              <el-option label="全部状态" value="all"></el-option>
+              <el-option label="待审核" value="pending"></el-option>
+              <el-option label="已通过" value="approved"></el-option>
+              <el-option label="已驳回" value="rejected"></el-option>
+            </el-select>
+            <el-input placeholder="搜索标题或发布者..." v-model="searchText" size="small" style="width:240px;" clearable>
+              <template #prefix><el-icon><Search /></el-icon></template>
+            </el-input>
+            <el-button type="primary" size="small">搜索</el-button>
+            <el-button size="small">重置</el-button>
+          </div>
+          <div class="review-table-wrap">
+            <table class="el-table">
+              <thead>
+                <tr>
+                  <th>标题</th>
+                  <th>类型</th>
+                  <th>发布者</th>
+                  <th>发布时间</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="item-detail.html" class="table-title">📦 出闲置教材《软件工程导论》</a></td>
+                  <td><span class="tag tag-primary">二手商品</span></td>
+                  <td>张同学</td>
+                  <td>2026-06-28 10:30</td>
+                  <td><span class="tag tag-warning">待审核</span></td>
+                  <td>
+                    <div class="review-actions">
+                      <button class="btn btn-primary btn-sm">通过</button>
+                      <button class="btn btn-danger btn-sm">驳回</button>
+                      <a href="item-detail.html" class="btn btn-default btn-sm">预览</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="lost-detail.html" class="table-title">🔍 拾到校园卡一张，请失主联系</a></td>
+                  <td><span class="tag tag-warning">失物招领</span></td>
+                  <td>王同学</td>
+                  <td>2026-06-28 11:00</td>
+                  <td><span class="tag tag-warning">待审核</span></td>
+                  <td>
+                    <div class="review-actions">
+                      <button class="btn btn-primary btn-sm">通过</button>
+                      <button class="btn btn-danger btn-sm">驳回</button>
+                      <a href="lost-detail.html" class="btn btn-default btn-sm">预览</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="group-detail.html" class="table-title">👥 东区食堂三楼拼奶茶，还差 2 人</a></td>
+                  <td><span class="tag tag-success">拼单搭子</span></td>
+                  <td>刘同学</td>
+                  <td>2026-06-28 10:00</td>
+                  <td><span class="tag tag-success">已通过</span></td>
+                  <td>
+                    <div class="review-actions">
+                      <button class="btn btn-default btn-sm" disabled>已通过</button>
+                      <a href="group-detail.html" class="btn btn-default btn-sm">预览</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="task-detail.html" class="table-title">🏃 求帮取快递到 6 栋宿舍</a></td>
+                  <td><span class="tag tag-info">跑腿委托</span></td>
+                  <td>赵同学</td>
+                  <td>2026-06-28 09:30</td>
+                  <td><span class="tag tag-success">已通过</span></td>
+                  <td>
+                    <div class="review-actions">
+                      <button class="btn btn-default btn-sm" disabled>已通过</button>
+                      <a href="task-detail.html" class="btn btn-default btn-sm">预览</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="item-detail.html" class="table-title">📦 IKBC 机械键盘 红轴 87 键</a></td>
+                  <td><span class="tag tag-primary">二手商品</span></td>
+                  <td>李同学</td>
+                  <td>2026-06-27 15:20</td>
+                  <td><span class="tag tag-danger">已驳回</span></td>
+                  <td>
+                    <div class="review-actions">
+                      <span style="font-size:12px;color:#909399;">理由：图片不清晰</span>
+                      <a href="item-detail.html" class="btn btn-default btn-sm">预览</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="lost-detail.html" class="table-title">🔍 西门打印店附近丢失黑色耳机盒</a></td>
+                  <td><span class="tag tag-warning">失物招领</span></td>
+                  <td>周同学</td>
+                  <td>2026-06-27 14:00</td>
+                  <td><span class="tag tag-danger">已驳回</span></td>
+                  <td>
+                    <div class="review-actions">
+                      <span style="font-size:12px;color:#909399;">理由：信息不完整</span>
+                      <a href="lost-detail.html" class="btn btn-default btn-sm">预览</a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination-wrap" style="margin-top:20px;">
+            <el-pagination background layout="prev,pager,next" :total="23" :page-size="10"></el-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const type = ref('all'); const status = ref('all'); const searchText = ref(''); return { type, status, searchText } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>

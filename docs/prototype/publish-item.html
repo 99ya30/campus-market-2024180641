@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发布二手商品 - 校园轻集市</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+    .form-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+    .form-card { background: #fff; border-radius: var(--radius-base); border: 1px solid var(--border-lighter); }
+    .form-card .card-body { padding: 28px; }
+    .form-card .card-body h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border-lighter); }
+    .upload-area { border: 2px dashed #dcdfe6; border-radius: 6px; padding: 32px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+    .upload-area:hover { border-color: var(--primary); }
+    .upload-area .el-icon { font-size: 36px; color: var(--text-placeholder); }
+    .upload-area p { font-size: 14px; color: var(--text-secondary); margin-top: 8px; }
+    .upload-area .hint { font-size: 12px; color: var(--text-placeholder); margin-top: 4px; }
+    .form-actions { display: flex; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-lighter); }
+    .tip-card { font-size: 13px; color: var(--text-secondary); line-height: 1.8; }
+    .tip-card h4 { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+    .tip-card ul { padding-left: 16px; }
+    .tip-card ul li { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="app-container">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="home.html" class="logo">🏫 校园轻<span>集市</span></a>
+          <div class="header-search"><el-input placeholder="搜索..." v-model="search" size="large" clearable><template #prefix><el-icon><Search /></el-icon></template></el-input></div>
+          <div class="header-actions">
+            <a href="publish.html" class="btn btn-primary">发布</a>
+            <a href="messages.html" class="btn btn-default"><el-icon><Message /></el-icon> 消息</a>
+            <a href="profile.html"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face" alt="" class="avatar"></a>
+          </div>
+        </div>
+      </header>
+      <div class="main-content">
+        <div class="breadcrumb"><a href="home.html">首页</a><span class="sep">/</span><a href="publish.html">发布</a><span class="sep">/</span><span>发布二手商品</span></div>
+        <h2 class="page-title">发布二手商品</h2>
+
+        <div class="form-layout">
+          <div class="form-card">
+            <div class="card-body">
+              <h3>商品信息</h3>
+              <div class="form-group">
+                <label class="form-label">商品名称 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="text" placeholder="请输入商品名称，例如：出闲置教材《软件工程导论》" value="出闲置教材《软件工程导论》">
+              </div>
+              <div class="form-group">
+                <label class="form-label">分类 <span style="color:#f56c6c;">*</span></label>
+                <el-select v-model="cat" placeholder="请选择分类" style="width:100%;">
+                  <el-option label="教材书籍" value="books"></el-option>
+                  <el-option label="电子数码" value="digital"></el-option>
+                  <el-option label="体育用品" value="sports"></el-option>
+                  <el-option label="生活日用" value="daily"></el-option>
+                  <el-option label="服饰鞋包" value="clothing"></el-option>
+                </el-select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">价格 (¥) <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="number" step="0.01" placeholder="请输入价格" value="25">
+              </div>
+              <div class="form-group">
+                <label class="form-label">成色</label>
+                <el-select v-model="condition" placeholder="请选择成色" style="width:100%;">
+                  <el-option label="全新" value="new"></el-option>
+                  <el-option label="九五新" value="95"></el-option>
+                  <el-option label="九成新" value="90"></el-option>
+                  <el-option label="八成新" value="80"></el-option>
+                  <el-option label="七成新及以下" value="70"></el-option>
+                </el-select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">交易地点 <span style="color:#f56c6c;">*</span></label>
+                <el-select v-model="loc" placeholder="请选择校区" style="width:100%;">
+                  <el-option label="东校区" value="east"></el-option>
+                  <el-option label="西校区" value="west"></el-option>
+                  <el-option label="南校区" value="south"></el-option>
+                  <el-option label="北校区" value="north"></el-option>
+                </el-select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">联系方式 <span style="color:#f56c6c;">*</span></label>
+                <input class="form-input" type="text" placeholder="请输入微信 / QQ / 手机号" value="WeChat: zhang2024">
+              </div>
+              <div class="form-group">
+                <label class="form-label">商品图片</label>
+                <div class="upload-area">
+                  <span class="el-icon"><el-icon><Plus /></el-icon></span>
+                  <p>点击或拖拽上传图片</p>
+                  <p class="hint">支持 jpg / png，最多 9 张，每张不超过 5MB</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">商品描述 <span style="color:#f56c6c;">*</span></label>
+                <textarea class="form-textarea" placeholder="请详细描述商品的使用情况、功能状态、购买时间、附赠物品等">软件工程导论第六版（张海藩 编著），清华大学出版社出版。使用一学期，整体九成新，内页无笔记涂画。附赠期末复习笔记电子版。</textarea>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary btn-lg" style="flex:1;">提交发布</button>
+                <button class="btn btn-default btn-lg">保存草稿</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="form-card tip-card">
+              <div class="card-body">
+                <h4>📌 发布须知</h4>
+                <ul>
+                  <li>请如实描述商品成色和使用情况</li>
+                  <li>禁止出售违禁品、假冒伪劣商品</li>
+                  <li>建议上传实物照片，提高可信度</li>
+                  <li>交易时请选择校内公共场所</li>
+                  <li>如商品已售出，请及时下架</li>
+                </ul>
+              </div>
+            </div>
+            <div class="form-card tip-card" style="margin-top:16px;">
+              <div class="card-body">
+                <h4>💡 发布技巧</h4>
+                <ul>
+                  <li>标题清晰包含商品名称和关键信息</li>
+                  <li>清晰的照片能更快吸引买家</li>
+                  <li>合理的定价有助于快速成交</li>
+                  <li>描述越详细，沟通成本越低</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const app = createApp({ setup() { const search = ref(''); const cat = ref('books'); const condition = ref('90'); const loc = ref('east'); return { search, cat, condition, loc } } })
+    app.use(ElementPlus); app.mount('#app')
+  </script>
+</body>
+</html>
