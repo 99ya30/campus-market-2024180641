@@ -12,6 +12,7 @@
     "type-check": "vue-tsc --build",
     "lint": "run-s \"lint:*\"",
     "lint:oxlint": "oxlint . --fix",
+    "mock": "json-server --watch db.json --port 3001",
     "lint:eslint": "eslint . --fix --cache"
   },
   "dependencies": {
@@ -31,6 +32,7 @@
     "eslint-plugin-oxlint": "~1.69.0",
     "eslint-plugin-vue": "~10.9.2",
     "jiti": "^2.7.0",
+    "json-server": "0.17.4",
     "npm-run-all2": "^9.0.2",
     "oxlint": "~1.69.0",
     "typescript": "~6.0.0",

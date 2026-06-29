@@ -4,18 +4,38 @@ import HomeView from '@/views/HomeView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    /* ===== 集市模块 ===== */
+    /* ===== 首页 ===== */
     {
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { title: '今日集市' },
+      meta: { title: '首页' },
+    },
+
+    /* ===== 集市业务页面 ===== */
+    {
+      path: '/trade',
+      name: 'trade',
+      component: () => import('@/views/TradeView.vue'),
+      meta: { title: '二手交易' },
     },
     {
-      path: '/list',
-      name: 'list',
-      component: () => import('@/views/ListView.vue'),
-      meta: { title: '集市列表' },
+      path: '/lost-found',
+      name: 'lost-found',
+      component: () => import('@/views/LostFoundView.vue'),
+      meta: { title: '失物招领' },
+    },
+    {
+      path: '/group-buy',
+      name: 'group-buy',
+      component: () => import('@/views/GroupBuyView.vue'),
+      meta: { title: '拼单搭子' },
+    },
+    {
+      path: '/errand',
+      name: 'errand',
+      component: () => import('@/views/ErrandView.vue'),
+      meta: { title: '跑腿委托' },
     },
     {
       path: '/item/:id',
@@ -24,21 +44,21 @@ const router = createRouter({
       meta: { title: '信息详情' },
     },
 
-    /* ===== 用户模块 ===== */
+    /* ===== 用户相关 ===== */
+    {
+      path: '/user',
+      name: 'user',
+      component: () => import('@/views/UserCenterView.vue'),
+      meta: { title: '个人中心' },
+    },
     {
       path: '/identity',
       name: 'identity',
       component: () => import('@/views/IdentityView.vue'),
       meta: { title: '身份创建' },
     },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: () => import('@/views/ProfileView.vue'),
-      meta: { title: '个人中心' },
-    },
 
-    /* ===== 互动模块 ===== */
+    /* ===== 互动 ===== */
     {
       path: '/publish',
       name: 'publish',
@@ -52,7 +72,7 @@ const router = createRouter({
       meta: { title: '消息中心' },
     },
 
-    /* ===== 信息模块 ===== */
+    /* ===== 辅助页面 ===== */
     {
       path: '/board',
       name: 'board',
