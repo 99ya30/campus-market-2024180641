@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
+import { createTrade } from '@/api/trade'
+import { createLostFound } from '@/api/lostFound'
+import { createGroupBuy } from '@/api/groupBuy'
+import { createErrand } from '@/api/errand'
+
+const router = useRouter()
 
 type PublishType = 'secondhand' | 'lost' | 'group' | 'task'
 
 const publishType = ref<PublishType | null>(null)
+const submitting = ref(false)
 
 const typeOptions = [
   { value: 'secondhand' as const, icon: '🛍️', label: '二手商品', desc: '出售闲置教材、数码产品等' },
@@ -79,12 +87,104 @@ function selectType(type: PublishType) {
   publishType.value = type
 }
 
-function handleSubmit() {
-  formRef.value?.validate((valid) => {
-    if (valid) {
-      ElMessage.success('发布成功！')
+function formatTime(d: unknown): string {
+  if (!d) return ''
+  if (typeof d === 'string') return d
+  try {
+    return new Date(d as string).toLocaleString('zh-CN', { hour12: false })
+  } catch {
+    return String(d)
+  }
+}
+
+async function handleSubmit() {
+  const valid = await formRef.value?.validate().catch(() => false)
+  if (!valid) return
+
+  submitting.value = true
+  const now = new Date().toLocaleString('zh-CN', { hour12: false })
+
+  try {
+    const t = publishType.value
+    if (t === 'secondhand') {
+      await createTrade({
+        title: form.title,
+        price: form.price ?? 0,
+        category: '',
+        condition: form.condition,
+        publisher: '我',
+        college: '',
+        avatar: '',
+        campus: form.campus,
+        location: form.location,
+        image: '',
+        publishedAt: now,
+        status: 'open',
+        tags: form.tags,
+        description: form.description,
+      })
+    } else if (t === 'lost') {
+      await createLostFound({
+        type: form.lostType as 'lost' | 'found',
+        title: form.title,
+        itemName: form.features,
+        location: form.location,
+        occurredAt: formatTime(form.eventTime) || now,
+        contact: '',
+        publisher: '我',
+        college: '',
+        avatar: '',
+        image: '',
+        publishedAt: now,
+        status: 'open',
+        description: form.description,
+      })
+    } else if (t === 'group') {
+      await createGroupBuy({
+        title: form.title,
+        type: '',
+        targetCount: form.peopleCount ?? 1,
+        currentCount: 1,
+        deadline: formatTime(form.deadline) || now,
+        location: form.location,
+        campus: form.campus,
+        publisher: '我',
+        college: '',
+        avatar: '',
+        publishedAt: now,
+        status: 'open',
+        description: form.description,
+      })
+    } else if (t === 'task') {
+      await createErrand({
+        title: form.title,
+        reward: form.reward ?? 0,
+        pickupLocation: form.location,
+        deliveryLocation: form.destination,
+        deadline: formatTime(form.expectTime) || now,
+        campus: form.campus,
+        publisher: '我',
+        college: '',
+        avatar: '',
+        publishedAt: now,
+        status: 'open',
+        description: form.description,
+      })
     }
-  })
+
+    ElMessage.success('发布成功！')
+    const routeMap: Record<PublishType, string> = {
+      secondhand: '/trade',
+      lost: '/lost-found',
+      group: '/group-buy',
+      task: '/errand',
+    }
+    router.push(routeMap[t!])
+  } catch {
+    ElMessage.error('发布失败，请检查 Mock 服务是否已启动')
+  } finally {
+    submitting.value = false
+  }
 }
 
 function resetForm() {
@@ -127,6 +227,7 @@ function resetForm() {
         label-position="top"
         size="large"
         class="publish-form"
+        @submit.prevent="handleSubmit"
       >
         <!-- 通用字段 -->
         <el-form-item label="标题" prop="title">
@@ -260,8 +361,8 @@ function resetForm() {
 
         <!-- 提交 -->
         <div class="form-actions">
-          <el-button type="primary" size="large" @click="handleSubmit">提交发布</el-button>
-          <el-button size="large" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="large" native-type="submit" :loading="submitting">提交发布</el-button>
+          <el-button size="large" @click="resetForm" :disabled="submitting">重置</el-button>
         </div>
       </el-form>
     </div>

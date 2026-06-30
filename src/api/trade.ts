@@ -21,3 +21,7 @@ export interface TradeItem {
 export function getTrades(): Promise<{ data: TradeItem[] }> {
   return http.get('/trades')
 }
+
+export function createTrade(data: Omit<TradeItem, 'id'>): Promise<{ data: TradeItem }> {
+  return http.post('/trades', data)
+}

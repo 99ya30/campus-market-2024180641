@@ -20,3 +20,7 @@ export interface GroupBuyItem {
 export function getGroupBuys(): Promise<{ data: GroupBuyItem[] }> {
   return http.get('/groupBuys')
 }
+
+export function createGroupBuy(data: Omit<GroupBuyItem, 'id'>): Promise<{ data: GroupBuyItem }> {
+  return http.post('/groupBuys', data)
+}

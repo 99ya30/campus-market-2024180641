@@ -19,3 +19,7 @@ export interface ErrandItem {
 export function getErrands(): Promise<{ data: ErrandItem[] }> {
   return http.get('/errands')
 }
+
+export function createErrand(data: Omit<ErrandItem, 'id'>): Promise<{ data: ErrandItem }> {
+  return http.post('/errands', data)
+}

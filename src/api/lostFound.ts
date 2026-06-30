@@ -20,3 +20,7 @@ export interface LostFoundItem {
 export function getLostFounds(): Promise<{ data: LostFoundItem[] }> {
   return http.get('/lostFounds')
 }
+
+export function createLostFound(data: Omit<LostFoundItem, 'id'>): Promise<{ data: LostFoundItem }> {
+  return http.post('/lostFounds', data)
+}
