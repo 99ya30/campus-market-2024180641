@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const nickname = '陈小星'
+import { useUserStore } from '@/stores/user'
+
+const user = useUserStore()
+
+const nickname = user.name
 const favCount = 23
 const unreadCount = 3
 
@@ -11,10 +15,10 @@ interface Entry {
 }
 
 const entries: Entry[] = [
-  { icon: '🛍️', title: '二手交易', desc: '闲置好物等你来淘', route: '/list' },
-  { icon: '🔍', title: '失物招领', desc: '找回丢失的物品', route: '/list' },
-  { icon: '👥', title: '拼单搭子', desc: '一起拼更划算', route: '/list' },
-  { icon: '🏃', title: '跑腿委托', desc: '有事你说话', route: '/list' },
+  { icon: '🛍️', title: '二手交易', desc: '闲置好物等你来淘', route: '/trade' },
+  { icon: '🔍', title: '失物招领', desc: '找回丢失的物品', route: '/lost-found' },
+  { icon: '👥', title: '拼单搭子', desc: '一起拼更划算', route: '/group-buy' },
+  { icon: '🏃', title: '跑腿委托', desc: '有事你说话', route: '/errand' },
 ]
 
 interface Item {

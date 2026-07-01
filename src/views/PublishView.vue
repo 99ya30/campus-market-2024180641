@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -87,6 +87,7 @@ const rules: FormRules = {
 
 function selectType(type: PublishType) {
   publishType.value = type
+  nextTick(() => formRef.value?.clearValidate())
 }
 
 function formatTime(d: unknown): string {

@@ -1,24 +1,42 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { Refresh } from '@element-plus/icons-vue'
+import { ref, computed, onMounted } from 'vue'
 import { getTrades, type TradeItem } from '@/api/trade'
 import { useFavoriteStore } from '@/stores/favorite'
 import ItemCard from '@/components/ItemCard.vue'
+import LoadingState from '@/components/LoadingState.vue'
+import ErrorState from '@/components/ErrorState.vue'
 import EmptyState from '@/components/EmptyState.vue'
+import SearchBar from '@/components/SearchBar.vue'
 
 const fav = useFavoriteStore()
-const items = ref<TradeItem[]>([])
+const allItems = ref<TradeItem[]>([])
 const loading = ref(false)
+const error = ref(false)
+const keyword = ref('')
 
-onMounted(async () => {
+const items = computed(() => {
+  if (!keyword.value) return allItems.value
+  const k = keyword.value.toLowerCase()
+  return allItems.value.filter(
+    i => i.title.toLowerCase().includes(k) || i.location.toLowerCase().includes(k) || i.description.toLowerCase().includes(k)
+  )
+})
+
+async function fetchData() {
   loading.value = true
+  error.value = false
   try {
     const res = await getTrades()
-    items.value = res.data
+    allItems.value = res.data
+  } catch {
+    error.value = true
+    allItems.value = []
   } finally {
     loading.value = false
   }
-})
+}
+
+onMounted(fetchData)
 </script>
 
 <template>
@@ -26,13 +44,11 @@ onMounted(async () => {
     <h2>二手交易</h2>
     <p class="desc">浏览校园闲置好物，发现实惠宝贝</p>
 
-    <div v-if="loading" class="loading-mask">
-      <el-icon class="is-loading" :size="28"><Refresh /></el-icon>
-      <span>加载中...</span>
-    </div>
+    <SearchBar v-model="keyword" placeholder="搜索二手商品标题、地点…" />
 
-    <EmptyState v-else-if="items.length === 0" text="暂无二手交易信息" />
-
+    <LoadingState v-if="loading" text="正在加载二手交易数据…" />
+    <ErrorState v-else-if="error" text="数据加载失败，请检查 Mock 服务是否已启动" :on-retry="fetchData" />
+    <EmptyState v-else-if="items.length === 0" :text="keyword ? '没有找到匹配的二手商品' : '暂无二手交易信息'" />
     <div v-else class="trade-list">
       <ItemCard v-for="item in items" :key="item.id" :item="item">
         <el-button
@@ -50,5 +66,4 @@ onMounted(async () => {
 <style scoped>
 .desc { color: #909399; margin-bottom: 16px; }
 .trade-list { display: flex; flex-direction: column; gap: 0; }
-.loading-mask { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 64px 0; color: #999; }
 </style>
