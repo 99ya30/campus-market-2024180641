@@ -3,12 +3,14 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
+import { useUserStore } from '@/stores/user'
 import { createTrade } from '@/api/trade'
 import { createLostFound } from '@/api/lostFound'
 import { createGroupBuy } from '@/api/groupBuy'
 import { createErrand } from '@/api/errand'
 
 const router = useRouter()
+const user = useUserStore()
 
 type PublishType = 'secondhand' | 'lost' | 'group' | 'task'
 
@@ -112,9 +114,9 @@ async function handleSubmit() {
         price: form.price ?? 0,
         category: '',
         condition: form.condition,
-        publisher: '我',
-        college: '',
-        avatar: '',
+        publisher: user.name,
+        college: user.college,
+        avatar: user.avatar,
         campus: form.campus,
         location: form.location,
         image: '',
@@ -131,9 +133,9 @@ async function handleSubmit() {
         location: form.location,
         occurredAt: formatTime(form.eventTime) || now,
         contact: '',
-        publisher: '我',
-        college: '',
-        avatar: '',
+        publisher: user.name,
+        college: user.college,
+        avatar: user.avatar,
         image: '',
         publishedAt: now,
         status: 'open',
@@ -148,9 +150,9 @@ async function handleSubmit() {
         deadline: formatTime(form.deadline) || now,
         location: form.location,
         campus: form.campus,
-        publisher: '我',
-        college: '',
-        avatar: '',
+        publisher: user.name,
+        college: user.college,
+        avatar: user.avatar,
         publishedAt: now,
         status: 'open',
         description: form.description,
@@ -163,9 +165,9 @@ async function handleSubmit() {
         deliveryLocation: form.destination,
         deadline: formatTime(form.expectTime) || now,
         campus: form.campus,
-        publisher: '我',
-        college: '',
-        avatar: '',
+        publisher: user.name,
+        college: user.college,
+        avatar: user.avatar,
         publishedAt: now,
         status: 'open',
         description: form.description,

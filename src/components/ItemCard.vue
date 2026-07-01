@@ -25,6 +25,9 @@
         <span v-else-if="(item as any).type === 'found'" class="card-tag tag-found">拾到</span>
         <span class="card-time">{{ item.publishedAt }}</span>
       </div>
+      <div class="card-actions" v-if="$slots.default" @click.stop>
+        <slot />
+      </div>
     </div>
     <div class="card-status" :class="item.status">
       {{ statusLabel(item.status) }}
@@ -33,9 +36,13 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+import { useSlots } from 'vue'
+
+defineProps<{
   item: Record<string, any>
 }>()
+
+const $slots = useSlots()
 
 function statusLabel(s: string): string {
   if (s === 'open') return '进行中'
@@ -126,6 +133,9 @@ function statusLabel(s: string): string {
   font-size: 12px;
   color: #999;
   margin-left: auto;
+}
+.card-actions {
+  margin-top: 8px;
 }
 .card-status {
   position: absolute;
