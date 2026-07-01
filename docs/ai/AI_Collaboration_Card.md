@@ -1,111 +1,51 @@
+# AI Collaboration Card
 
+## 1. 使用的 AI 工具
 
-1. 项目目录结构
-campus-market-2024180641/
-├── .editorconfig           # 编辑器统一配置
-├── .gitattributes          # Git 属性配置
-├── .gitignore              # Git 忽略规则
-├── .nvmrc                  # Node 版本锁定
-├── .oxlintrc.json          # Oxlint 静态分析配置
-├── .vscode/                # VSCode 工作区设置
-├── CHECK_REPORT.md         # 检查报告
-├── docs/                   # 文档
-├── env.d.ts                # 环境变量类型声明
-├── eslint.config.ts        # ESLint 配置
-├── index.html              # 入口 HTML
-├── node_modules/           # 依赖包
-├── package.json            # 项目元数据 & 依赖
-├── pnpm-lock.yaml          # pnpm 锁文件
-├── public/                 # 静态资源
-├── scripts/                # 构建/工具脚本
-├── src/                    # 源代码
-│   ├── api/                # API 接口层
-│   ├── components/         # 公共组件
-│   ├── router/             # 路由配置
-│   │   └── index.ts
-│   ├── stores/             # Pinia 状态管理
-│   ├── views/              # 页面组件
-│   ├── App.vue             # 根组件
-│   └── main.ts             # 应用入口
-├── tsconfig*.json          # TypeScript 配置
-├── VERSION.md              # 版本记录
-└── vite.config.ts          # Vite 构建配置
-结构分析：项目采用标准的 Vue 3 工程化目录划分——api/ 负责网络请求，components/ 存放可复用组件，router/ 管理路由，stores/ 集中状态管理，views/ 承载页面级组件。整体分层清晰，关注点分离良好。
+AI Coding 工具（Cline/opencode），基于大语言模型辅助生成代码和文档。
 
-2. main.ts 解释
-import { createApp } from 'vue'         // ①
-import { createPinia } from 'pinia'     // ②
+## 2. AI 参与的任务
 
-import App from './App.vue'             // ③
-import router from './router'           // ④
+| 阶段 | AI 辅助内容 | 人工调整内容 |
+|---|---|---|
+| Day1 | 生成页面清单和业务梳理文档 | 确认页面命名和业务分组，补充校园场景细节 |
+| Day2 | 生成页面骨架代码、路由配置、公共布局组件 | 检查页面名称与路由路径一致性，调整 AppLayout 布局结构 |
+| Day3 | 生成 db.json 数据、API 封装代码、ItemCard 和 EmptyState 组件 | 调整字段命名（camelCase），确保贴合校园业务，补全 4 类业务数据 |
+| Day4 | 生成发布表单、字段校验规则、POST 提交逻辑 | 删除复杂的登录校验和图片上传（超出范围），简化表单结构 |
+| Day5 | 生成 Pinia Store（user 和 favorite）、AppHeader 用户信息展示、UserCenter 页面 | 调整状态边界：userStore 仅放跨页面共享字段，收藏控制在 favoriteStore 内 |
+| Day6 | 生成 LoadingState、ErrorState、SearchBar 组件，优化列表页交互 | 筛选优化建议，避免新增复杂功能，统一 loading→error→empty→list 状态顺序 |
+| Day7 | 协助整理 README、Day7 证据卡框架、AI 复盘提纲 | 逐项核对功能真实性，删除虚构功能描述，补充真实走查记录 |
 
-const app = createApp(App)              // ⑤ 创建 Vue 应用实例
+## 3. 典型提示词
 
-app.use(createPinia())                  // ⑥ 注册 Pinia 状态管理
-app.use(router)                         // ⑦ 注册 Vue Router
+**最有价值的提示词（Day3）：**
+> "为校园轻集市 Vue3 项目创建 db.json Mock 数据，包含二手交易(trades)、失物招领(lostFounds)、拼单搭子(groupBuys)、跑腿委托(errands)四种类型，每种类型 5-6 条数据，字段使用中文示例数据，贴合校园生活场景。"
 
-app.mount('#app')                       // ⑧ 挂载到 index.html 的 #app 元素
-步骤	作用
-① createApp	Vue 3 的新 API，创建应用实例（区别于 Vue 2 的 new Vue()）
-② createPinia	创建 Pinia（Vue 3 官方推荐的状态管理库）实例
-③ import App	导入根组件 App.vue
-④ import router	导入路由配置
-⑤ createApp(App)	以 App.vue 为根组件创建应用
-⑥ app.use(createPinia())	全局注册 Pinia，使所有组件可通过 useXxxStore() 访问状态
-⑦ app.use(router)	全局注册 Vue Router，提供 <RouterView> / <RouterLink> 及路由守卫
-⑧ app.mount('#app')	将应用挂载到 DOM 上，启动整个应用
-本质：main.ts 是应用的启动入口，职责是组装核心插件（Router + Pinia）并挂载到页面。
+**交互优化（Day6）：**
+> "为四个列表页面统一添加加载状态（loading）、错误状态（含重试按钮）、空状态（区分无数据和搜索无结果）和关键字搜索功能，保持代码一致可维护。"
 
-3. Router 的作用
-// src/router/index.ts
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
+## 4. AI 生成内容的问题
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-    },
-  ],
-})
+1. **字段不贴合业务：** AI 生成的 Mock 数据字段偏通用电商风格（如 price 字段，未区分二手商品和拼单的语义差异），需要人工调整。
 
-export default router
-Router 的核心作用：
+2. **代码过度复杂：** AI 在生成发布表单时，自动加入了图片上传组件、文件大小校验、预览等功能，超出了项目范围，手动删除。
 
-方面	说明
-URL ↔ 组件映射	定义 path: '/' 对应 HomeView 组件
-History 模式	createWebHistory() 使用 HTML5 History API，URL 不带 #，更美观
-声明式导航	在模板中使用 <RouterLink> 代替 <a>
-视图渲染	<RouterView> 根据当前 URL 自动渲染匹配的组件
-扩展性	未来可添加嵌套路由、路由守卫（鉴权）、懒加载（() => import()）
-当前仅配置了首页路由（/），是一个基础骨架，后续添加新页面只需在 routes 数组中追加路由规则即可。
+3. **功能超出范围：** AI 在生成用户相关代码时，试图引入 JWT Token 管理、登录页面、注册页面等，与本项目"模拟用户"的设计不符。
 
-4. 技术栈分析
-类别	技术	版本	说明
-框架	Vue 3	^3.5.38	Composition API + <script setup>
-路由	vue-router	^5.1.0	Vue 3 官方路由，History 模式
-状态管理	Pinia	^3.0.4	Vue 3 官方状态管理，替代 Vuex
-构建工具	Vite	^8.0.16	新一代前端构建工具，极速 HMR
-语言	TypeScript	~6.0.0	类型安全的 JavaScript 超集
-包管理	pnpm	11.9.0	快速、节省磁盘的包管理器
-代码检查	ESLint + Oxlint	10.x / 1.69	双重 Lint 保证代码质量
-类型检查	vue-tsc	^3.3.5	Vue 文件类型检查
-Vue 插件	@vitejs/plugin-vue	^6.0.7	Vite 解析 .vue 文件
-Node 引擎	Node ^22.18 / >=24.12	—	较新的 Node 版本要求
-技术栈总结：这是一个 Vite + Vue 3 + TypeScript + Pinia + Vue Router 的现代前端项目，采用 pnpm 管理依赖，辅以 ESLint + Oxlint 双重 Lint 和 vue-tsc 类型检查。项目当前处于种子阶段，具备完整的工程化配置但功能代码尚少（仅 / 路由和 HomeView）。
+4. **组件抽象过度：** AI 建议将列表页中的筛选器抽取为独立组件，但对于仅一个页面使用的情况，过度抽象反而增加了维护成本。
 
-记录
-Prompt：用户要求 AI 分析项目目录结构、解释 main.ts、解释 router 的作用、分析当前项目采用的技术栈，并记录 Prompt、AI 输出、自己的理解、最终结论。
+5. **生成内容无法直接运行：** AI 生成的类型定义有时与实际 API 返回不一致（如字段名大小写不匹配），需要人工检查并修正。
 
-AI 输出：见上方四个章节的完整分析。
+## 5. 我的判断与修改
 
-自己的理解：
+- **业务贴合判断：** 每次 AI 生成数据后，逐条检查字段是否适合校园场景，将"商品描述"改为"物品描述"，将"快递类型"改为"任务类型"。
+- **功能范围控制：** 严格对照每日任务清单，AI 建议的功能超出当天任务的，一律不采用或留到后续阶段。
+- **代码风格统一：** AI 生成的代码风格偶有差异（如引号风格、换行方式），按照项目已有风格手动调整。
+- **类型安全：** AI 生成的接口返回值类型定义，运行时用 vue-tsc 验证，确保类型检查通过。
+- **状态边界：** AI 最初将所有状态放入一个 Store，人工拆分为 user 和 favorite 两个 Store，遵循"关注点分离"原则。
 
-这是一个规范的 Vue 3 种子项目，工程化配置非常完整（Vite + TS + ESLint/Oxlint + pnpm + vue-tsc），开箱即用。
-main.ts 作为启动入口，职责单一清晰——创建 Vue 实例、注册插件、挂载 DOM。
-Router 当前虽然只配置了一条路由，但 createWebHistory + 基于 @/ 别名的导入方式为后续扩展做好了准备。
-技术栈选择上紧跟 Vue 3 生态的最新实践（Pinia 替代 Vuex，vue-router 5.x，Vite 8.x），且通过 pnpm 和引擎限制保证了环境一致性。
-最终结论：campus-market-seed 是一个现代化的 Vue 3 前端项目脚手架，采用了 2026 年最新的前端工程化技术栈。当前完成了项目骨架搭建，后续只需在 router/ 添加路由、在 views/ 编写页面、在 api/ 对接后端即可快速迭代开发。
+## 6. 总结
+
+AI 在本项目中显著提高了代码生成的效率，特别是在页面骨架搭建、重复性组件（ItemCard、SearchBar、API 模块）生成和 Mock 数据填充方面，节省了大量手动编码时间。但在业务理解、功能范围控制、字段语义准确性和代码一致性方面，仍然必须由开发者自己判断和决策。
+
+AI 更像一个高效的"代码生成器"和"初稿助手"，而开发者则承担"架构师"和"审核者"的角色。真正的工程能力体现在：知道 AI 生成的代码是否合适、哪些需要修改、哪些应该舍弃、如何让代码融入整体项目架构。

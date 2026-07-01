@@ -1,126 +1,125 @@
-Campus Market Seed
+# 校园轻集市
 
-《校园轻集市》AI 辅助前端工程实践课程种子仓库
+## 1. 项目简介
 
-⸻
+"校园轻集市"是一个面向高校校园生活场景的 PC 端 Web App，主要支持二手交易、失物招领、拼单搭子、跑腿委托等功能。本项目为 7 天 Vue 3 前端工程实训的最终成果。
 
-项目简介
+## 2. 技术栈
 
-Campus Market Seed 是《校园轻集市》课程的统一种子仓库（Seed Repository）。
+- **Vue 3** — Composition API + `<script setup>`
+- **Vite** — 构建工具，极速 HMR
+- **TypeScript** — 类型安全的 JavaScript 超集
+- **Vue Router** — 单页应用路由，History 模式
+- **Pinia** — Vue 3 官方状态管理
+- **Axios** — HTTP 请求库
+- **JSON Server** — Mock 后端接口
+- **Element Plus** — UI 组件库
+- **ESLint + Oxlint** — 代码检查
+- **vue-tsc** — 类型检查
 
-本仓库不仅提供 Vue 3 前端项目模板，还包含课程文档、开发规范、AI 协作规范、过程性证据模板以及自动检测框架，为整个实训提供统一的开发基础。
+## 3. 核心功能
 
-本仓库是所有同学开展项目实践的起点。
+| 功能模块 | 说明 |
+|---|---|
+| 首页与导航 | 顶部导航栏 + 底部 Tab 导航，四个业务入口 |
+| 二手交易 | 商品列表展示，支持关键字搜索和收藏 |
+| 失物招领 | 失物/招领列表，支持类型筛选和关键字搜索 |
+| 拼单搭子 | 拼单列表，支持关键字搜索 |
+| 跑腿委托 | 委托列表，支持关键字搜索 |
+| 信息发布 | 类型切换表单，字段校验，POST 提交 |
+| 用户中心 | 用户资料展示，收藏列表管理 |
+| 状态反馈 | 加载中、空数据、错误重试三种状态 |
 
-⸻
+## 4. 项目运行
 
-项目目标
+```bash
+# 安装依赖
+npm install
 
-通过本课程，你将完成一个基于 Vue 3 的校园轻集市前端项目，并体验真实的软件工程开发流程。
+# 启动 Mock 服务（端口 3001）
+npm run mock
 
-课程重点包括：
+# 新开终端，启动前端项目（端口 5173）
+npm run dev
 
-* Vue 3 工程化开发
-* Git 版本管理
-* AI Coding 协作开发
-* 软件工程规范
-* 过程性证据管理
-* 项目验收与自动检测
+# 类型检查
+npm run type-check
 
-⸻
+# 构建项目
+npm run build
+```
 
-快速开始
+> 注意：Mock 服务和前端服务必须同时运行。
 
-首次使用本仓库，请按照以下顺序阅读文档：
+## 5. 项目目录说明
 
-README.md
-    │
-    ▼
-docs/guide/Environment_Setup.md
-    │
-    ▼
-docs/guide/Getting_Started.md
+```
+campus-market-2024180641/
+├── db.json                    # Mock 数据（4 类业务，共 21 条记录）
+├── CHECK_REPORT.md            # 检测报告
+├── README.md                  # 本文件
+├── src/
+│   ├── api/                   # 接口请求模块
+│   │   ├── http.ts            # Axios 实例
+│   │   ├── trade.ts           # 二手交易 API
+│   │   ├── lostFound.ts       # 失物招领 API
+│   │   ├── groupBuy.ts        # 拼单搭子 API
+│   │   └── errand.ts          # 跑腿委托 API
+│   ├── components/            # 公共组件
+│   │   ├── AppHeader.vue      # 顶部导航栏
+│   │   ├── AppLayout.vue      # 页面布局容器
+│   │   ├── AppNav.vue         # 底部导航栏
+│   │   ├── ItemCard.vue       # 信息卡片
+│   │   ├── EmptyState.vue     # 空状态提示
+│   │   ├── FormField.vue      # 表单字段组件
+│   │   ├── LoadingState.vue   # 加载状态
+│   │   ├── ErrorState.vue     # 错误状态（含重试）
+│   │   └── SearchBar.vue      # 搜索框
+│   ├── router/
+│   │   └── index.ts           # 12 条路由，4 组业务
+│   ├── stores/
+│   │   ├── user.ts            # 用户状态（模拟登录）
+│   │   └── favorite.ts        # 收藏状态（内存）
+│   └── views/
+│       ├── HomeView.vue       # 首页
+│       ├── TradeView.vue      # 二手交易
+│       ├── LostFoundView.vue  # 失物招领
+│       ├── GroupBuyView.vue   # 拼单搭子
+│       ├── ErrandView.vue     # 跑腿委托
+│       ├── PublishView.vue    # 信息发布
+│       ├── MessageView.vue    # 消息中心
+│       └── UserCenterView.vue # 用户中心
+├── docs/
+│   ├── ai/
+│   │   └── AI_Collaboration_Card.md  # AI 协作记录
+│   ├── evidence/              # 每日证据卡（Day1—Day7）
+│   └── prototype/             # HTML 页面原型（22 页）
+├── package.json
+├── vite.config.ts
+└── tsconfig*.json
+```
 
-随后执行：
+## 6. 每日开发记录
 
-git clone <课程仓库地址>
-cd campus-market-seed
-nvm use
-pnpm install
-pnpm dev
+| 天数 | 主题 | 核心产出 |
+|---|---|---|
+| Day1 | 项目启动与业务梳理 | 页面清单，业务场景分析 |
+| Day2 | 页面骨架与路由导航 | 12 条路由，17 个 .vue 文件，公共布局 |
+| Day3 | Mock 数据与列表渲染 | db.json，4 个 API 模块，ItemCard 组件 |
+| Day4 | 发布表单与数据新增 | 类型切换表单，字段校验，POST 提交 |
+| Day5 | 状态管理与用户中心 | Pinia store，收藏功能，用户资料 |
+| Day6 | 交互优化与体验完善 | 加载/错误/空状态，搜索筛选，代码清理 |
+| Day7 | 综合验收与项目展示 | README，AI 复盘，最终检查，证据归档 |
 
-浏览器访问：
+## 7. AI 协作说明
 
-http://localhost:5173
+本项目开发过程中使用 AI Coding 工具辅助完成页面骨架设计、Mock 数据建模、接口封装、表单设计、状态管理和交互优化。开发者对 AI 生成内容进行了人工审查、修改和取舍，具体过程记录在 `docs/evidence/` 和 `docs/ai/` 中。
 
-如果页面显示：
+## 8. 项目不足与改进方向
 
-项目启动成功
-
-说明开发环境已经配置完成。
-
-⸻
-
-项目结构
-
-campus-market-seed
-├── docs
-│   ├── ai              # AI 协作规范
-│   ├── evidence        # 每日过程证据
-│   └── guide           # 学生使用指南
-├── scripts             # 自动检测工具
-├── src                 # 项目源码
-└── CHECK_REPORT.md     # 自动检测报告（后续版本启用）
-
-⸻
-
-文档导航
-
-文档	说明
-docs/guide/Environment_Setup.md	配置课程开发环境
-docs/guide/Getting_Started.md	Day1 快速开始指南
-docs/ai/AI_Collaboration_Card.md	AI 协作记录规范
-docs/evidence/	每日过程性证据模板
-
-⸻
-
-技术栈
-
-* Vue 3
-* TypeScript
-* Vite
-* Vue Router
-* Pinia
-* ESLint
-* Oxlint
-
-⸻
-
-开发规范
-
-在整个实训过程中，请遵循以下要求：
-
-* 使用 Git 管理项目开发过程；
-* 每完成一个独立功能及时提交 Commit；
-* 合理使用 AI Coding 工具辅助开发；
-* 保留 AI 协作记录；
-* 每天完成对应的 Evidence；
-* 保持项目始终能够正常运行。
-
-⸻
-
-后续版本
-
-后续版本将逐步提供：
-
-* 自动检测工具（Check Engine）
-* 自动评分报告
-* Git 提交分析
-* AI 协作分析
-* 教师验收工具
-
-⸻
-
-License
-
-本仓库仅用于《校园轻集市》课程教学与实践。
+- 使用 JSON Server 模拟后端，非真实服务器
+- 用户状态为 Pinia 模拟，无真实登录认证
+- 收藏数据存储在内存中，刷新后丢失
+- 未实现图片上传功能
+- 搜索功能仅前端关键字过滤，无后端分页搜索
+- 页面样式仍有优化空间
