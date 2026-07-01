@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
+import { useFavoriteStore } from '@/stores/favorite'
 
 const user = useUserStore()
+const fav = useFavoriteStore()
 
 const nickname = user.name
-const favCount = 23
+const favCount = fav.count
 const unreadCount = 3
 
 interface Entry {
@@ -76,7 +78,7 @@ const items: Item[] = [
     <!-- 最新信息列表 -->
     <div class="section-header">
       <h3>最新信息</h3>
-      <router-link to="/list" class="more">查看更多</router-link>
+      <router-link to="/trade" class="more">查看更多</router-link>
     </div>
     <el-card shadow="never" class="list-card">
       <div v-for="item in items" :key="item.id" class="list-item">
@@ -88,7 +90,7 @@ const items: Item[] = [
 
     <!-- 底部快捷导航 -->
     <div class="bottom-nav">
-      <router-link to="/list" class="nav-item">
+      <router-link to="/trade" class="nav-item">
         <span class="nav-icon">📋</span>
         <span class="nav-label">列表</span>
       </router-link>
@@ -101,7 +103,7 @@ const items: Item[] = [
         <span class="nav-label">消息</span>
         <el-badge :value="unreadCount" :max="99" class="nav-badge" />
       </router-link>
-      <router-link to="/profile" class="nav-item">
+      <router-link to="/user" class="nav-item">
         <span class="nav-icon">👤</span>
         <span class="nav-label">个人</span>
       </router-link>

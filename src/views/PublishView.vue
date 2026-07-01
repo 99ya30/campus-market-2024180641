@@ -33,6 +33,7 @@ interface PublishForm {
   description: string
   tags: string[]
   price: number | null
+  category: string
   condition: string
   lostType: string
   eventTime: string
@@ -51,6 +52,7 @@ const form = reactive<PublishForm>({
   description: '',
   tags: [],
   price: null,
+  category: '',
   condition: '',
   lostType: 'lost',
   eventTime: '',
@@ -67,6 +69,7 @@ const rules: FormRules = {
   campus: [{ required: true, message: '请选择校区', trigger: 'change' }],
   location: [{ required: true, message: '请输入具体地点', trigger: 'blur' }],
   description: [{ required: true, message: '请输入详细描述', trigger: 'blur' }],
+  category: [{ required: true, message: '请选择分类', trigger: 'change' }],
   price: [
     { required: true, message: '请输入价格', trigger: 'blur' },
     { type: 'number', min: 0.01, message: '价格必须大于 0', trigger: 'blur' },
@@ -113,7 +116,7 @@ async function handleSubmit() {
       await createTrade({
         title: form.title,
         price: form.price ?? 0,
-        category: '',
+        category: form.category,
         condition: form.condition,
         publisher: user.name,
         college: user.college,
@@ -285,10 +288,23 @@ function resetForm() {
         <template v-if="publishType === 'secondhand'">
           <el-row :gutter="16">
             <el-col :span="12">
+              <el-form-item label="分类" prop="category">
+                <el-select v-model="form.category" placeholder="请选择分类" style="width: 100%">
+                  <el-option label="教材书籍" value="教材书籍" />
+                  <el-option label="电子数码" value="电子数码" />
+                  <el-option label="生活用品" value="生活用品" />
+                  <el-option label="服饰鞋包" value="服饰鞋包" />
+                  <el-option label="其他" value="其他" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item label="价格 (¥)" prop="price">
                 <el-input-number v-model="form.price" :min="0.01" :precision="2" :step="10" style="width: 100%" placeholder="请输入价格" />
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-row :gutter="16">
             <el-col :span="12">
               <el-form-item label="成色">
                 <el-select v-model="form.condition" placeholder="请选择成色" style="width: 100%">

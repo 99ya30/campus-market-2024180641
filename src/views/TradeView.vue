@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { StarFilled, Star } from '@element-plus/icons-vue'
 import { getTrades, type TradeItem } from '@/api/trade'
 import { useFavoriteStore } from '@/stores/favorite'
 import ItemCard from '@/components/ItemCard.vue'
@@ -53,7 +54,7 @@ onMounted(fetchData)
       <ItemCard v-for="item in items" :key="item.id" :item="item">
         <el-button
           :type="fav.isFavorited('trade', item.id) ? 'danger' : 'default'"
-          :icon="fav.isFavorited('trade', item.id) ? 'HeartFilled' : 'Heart'"
+          :icon="fav.isFavorited('trade', item.id) ? StarFilled : Star"
           size="small"
           circle
           @click="fav.toggle('trade', item.id)"

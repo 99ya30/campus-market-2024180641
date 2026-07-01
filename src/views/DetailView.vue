@@ -9,7 +9,7 @@ const route = useRoute()
     <h2>商品详情</h2>
     <p>商品 ID：{{ route.params.id }}</p>
     <p class="placeholder">详细商品信息展示区域</p>
-    <router-link to="/list" class="back">← 返回列表</router-link>
+    <router-link to="/trade" class="back">← 返回列表</router-link>
   </section>
 </template>
 

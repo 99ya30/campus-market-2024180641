@@ -1,8 +1,23 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+
+const STORAGE_KEY = 'campus-market-favorites'
+
+function load(): { type: string; id: number }[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    return raw ? JSON.parse(raw) : []
+  } catch {
+    return []
+  }
+}
 
 export const useFavoriteStore = defineStore('favorite', () => {
-  const items = ref<{ type: string; id: number }[]>([])
+  const items = ref<{ type: string; id: number }[]>(load())
+
+  watch(items, (v) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(v))
+  }, { deep: true })
 
   const count = computed(() => items.value.length)
 
